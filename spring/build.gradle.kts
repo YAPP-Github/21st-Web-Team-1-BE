@@ -32,6 +32,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	// p6spy 의존성 추가
+	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 }
 
 tasks.withType<Test> {

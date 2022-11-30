@@ -17,17 +17,6 @@ spring:
     hibernate:
       # 자동으로 테이블을 만들어주는 모드. create로 두면 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
       ddl-auto: create
-    # 하이버네이트와 관련된 특정 프로퍼티를 사용할 수 있다.
-    properties:
-      hibernate:
-        # SQL을 가독성 있게 출력한다.
-        format_sql: true
-        # ANSI SQL에 맞게 색을 칠해준다.
-        highlight_sql: true
-
-logging.level:
-  # logger를 통해 하이버네이트 실행 SQL을 남긴다.
-  org.hibernate.SQL: debug
 
 # Actuator 설정
 management:
@@ -41,3 +30,9 @@ management:
     health:
       enabled: true
       show-details: always
+
+# p6spy 적용
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
