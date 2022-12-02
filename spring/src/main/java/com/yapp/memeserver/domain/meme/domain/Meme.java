@@ -27,11 +27,16 @@ public class Meme {
     @Column(length = 200)
     private String imageUrl;
 
-    @ColumnDefault("0")
     private Integer viewCount;
 
     @Builder
     public Meme(String title, String imageUrl) {
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.viewCount = 0;
+    }
+
+    public void updateMeme(String title, String imageUrl) {
         this.title = title;
         this.imageUrl = imageUrl;
     }
