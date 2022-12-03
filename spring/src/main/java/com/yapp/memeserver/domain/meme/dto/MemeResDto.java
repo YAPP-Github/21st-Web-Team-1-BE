@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,6 +17,8 @@ public class MemeResDto {
     private String title;
     private String imageUrl;
     private Integer viewCount;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
 
     public static MemeResDto of(Meme meme) {
         return MemeResDto.builder()
@@ -22,6 +26,8 @@ public class MemeResDto {
                 .title(meme.getTitle())
                 .imageUrl(meme.getImageUrl())
                 .viewCount(meme.getViewCount())
+                .createDate(meme.getCreateDate())
+                .modifiedDate(meme.getModifiedDate())
                 .build();
     }
 
