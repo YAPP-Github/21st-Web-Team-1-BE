@@ -38,4 +38,8 @@ public class MemeService {
         }
         return memeList;
     }
+
+    public void read(Long memeId) {
+        memeRepository.updateViewCount(memeId);
+    }
 }
