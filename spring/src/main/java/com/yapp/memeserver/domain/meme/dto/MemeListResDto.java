@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +24,16 @@ public class MemeListResDto {
         private String title;
         private String imageUrl;
         private Integer viewCount;
+        private LocalDateTime createDate;
+        private LocalDateTime modifiedDate;
 
         public SingleMeme(Meme meme) {
             this.memeId = meme.getId();
             this.title = meme.getTitle();
             this.imageUrl = meme.getImageUrl();
             this.viewCount = meme.getViewCount();
+            this.createDate = meme.getCreateDate();
+            this.modifiedDate = meme.getModifiedDate();
         }
 
         public static SingleMeme of(Meme meme) {

@@ -9,9 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 class MemeRepositoryTest extends RepositoryTest {
 
@@ -30,6 +32,7 @@ class MemeRepositoryTest extends RepositoryTest {
         meme3 = createMeme("밈3", "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t");
     }
 
+    @DirtiesContext(methodMode = BEFORE_METHOD)
     @Test
     public void findAllPagingTest() {
         int newViewCount1 = 4;
@@ -61,6 +64,15 @@ class MemeRepositoryTest extends RepositoryTest {
 
     }
 
+    @DirtiesContext(methodMode = BEFORE_METHOD) // 특정 케이스를 시작하기 전에 context 재생성
+    @Test
+    void updateViewCountTest() {
+        Long memeId = 1L;
+        Meme meme = memeRepository.findById(memeId).get();
+        memeRepository.updateViewCount(memeId); // @Query 로 작성하여 영속성 컨텍스트에 반영 안됨
+        assertThat(meme.getViewCount()).isEqualTo(0); // 1차 캐시에 남아 있는 객체를 조회하므로 반영 안됨
+        assertThat(memeRepository.findById(memeId).get().getViewCount()).isEqualTo(1); // 새로 조회해서 반영 됨
+    }
 
     private Meme createMeme(String title, String imageUrl) {
         Meme meme = Meme.builder()
@@ -72,10 +84,8 @@ class MemeRepositoryTest extends RepositoryTest {
 
     private void changeViewCount(Meme meme, int newViewCount) {
         for (int i = 0; i < newViewCount; i++) {
-            meme.updateViewCount();
+            memeRepository.updateViewCount(meme.getId());
         }
     }
-
-
 
 }
