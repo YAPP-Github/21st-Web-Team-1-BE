@@ -32,6 +32,21 @@ class MemeTest {
         assertThat(meme.getImageUrl()).isEqualTo(newImageUrl);
     }
 
+    @Test
+    void 밈_조회수_증가_테스트() {
+        String title = "밈 제목";
+        String imageUrl = "https://user-images.githubusercontent.com/62461857/201794604-7f9f6389-1bc9-44e2-8dbb-eb7b1fd3c513.png";
+
+        Meme meme = createMeme(title, imageUrl);
+        for (int i = 0; i < 10; i++) {
+            meme.updateViewCount();
+        }
+
+        assertThat(meme.getTitle()).isEqualTo(title);
+        assertThat(meme.getImageUrl()).isEqualTo(imageUrl);
+        assertThat(meme.getViewCount()).isEqualTo(10);
+    }
+
     private Meme createMeme(String title, String imageUrl) {
         return Meme.builder()
                 .title(title)
