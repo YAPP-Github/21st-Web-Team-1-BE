@@ -1,5 +1,6 @@
 package com.yapp.memeserver.domain.meme.service;
 
+import com.yapp.memeserver.domain.meme.domain.Category;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.domain.meme.repository.TagRepository;
@@ -22,10 +23,18 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
+    private final CategoryService categoryService;
+
     @Transactional(readOnly = true)
     public Tag findById(Long tagId) {
         return tagRepository.findById(tagId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id를 가진 Tag 을 찾을 수 없습니다. id = "+ tagId ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tag> findByCategory(Long categoryId) {
+        Category category = categoryService.findById(categoryId);
+        return tagRepository.findByCategory(category);
     }
 
     public List<Tag> findAllPaging(Pageable pageable) {
