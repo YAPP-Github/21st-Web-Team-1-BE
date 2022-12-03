@@ -37,6 +37,7 @@ public class TagService {
         return tagRepository.findByCategory(category);
     }
 
+    @Transactional(readOnly = true)
     public List<Tag> findAllPaging(Pageable pageable) {
         Page<Tag> tagPage = tagRepository.findAll(pageable);
         List<Tag> tagList = new ArrayList<Tag>();
@@ -44,6 +45,12 @@ public class TagService {
         if(tagPage!=null && tagPage.hasContent()){
             tagList = tagPage.getContent();
         }
+        return tagList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tag> findByNameContains(String word) {
+        List<Tag> tagList = tagRepository.findByNameContains(word);
         return tagList;
     }
 
