@@ -21,12 +21,17 @@ public class TagListResDto {
     public static class SingleTag {
         private Long tagId;
         private String name;
+        private Long categoryId;
+        private String categoryName;
         private Integer viewCount;
 
         public SingleTag(Tag tag) {
             this.tagId = tag.getId();
             this.name = tag.getName();
+            this.categoryId = tag.getCategory().getId();
+            this.categoryName = tag.getCategory().getName();
             this.viewCount = tag.getViewCount();
+
         }
 
         public static TagListResDto.SingleTag of(Tag tag) {
