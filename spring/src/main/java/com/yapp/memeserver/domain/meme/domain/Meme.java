@@ -24,7 +24,7 @@ public class Meme {
     private String title;
 
     @NotNull(message = "이미지는 필수로 입력되어야 합니다.")
-    @Column(length = 200)
+    @Column(length = 1024)
     private String imageUrl;
 
     private Integer viewCount;
@@ -39,5 +39,9 @@ public class Meme {
     public void updateMeme(String title, String imageUrl) {
         this.title = title;
         this.imageUrl = imageUrl;
+    }
+
+    public void updateViewCount(){
+        this.viewCount += 1;
     }
 }
