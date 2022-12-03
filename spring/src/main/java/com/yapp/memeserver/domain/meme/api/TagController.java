@@ -34,11 +34,18 @@ public class TagController {
 
     @GetMapping("/{tagId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public TagResDto readMeme(@PathVariable final Long tagId) {
+    public TagResDto readTag(@PathVariable final Long tagId) {
         tagService.read(tagId);
         Tag tag = tagService.findById(tagId);
         TagResDto resDto = TagResDto.of(tag);
         return resDto;
     }
 
+    @GetMapping("/search")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagListResDto searchTag(@RequestParam String word) {
+        List<Tag> tagList = tagService.findByNameContains(word);
+        TagListResDto resDto = TagListResDto.of(tagList);
+        return resDto;
+    }
 }
