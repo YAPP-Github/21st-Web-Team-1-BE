@@ -22,6 +22,8 @@ public class Tag {
     @Column(length = 50)
     private String name;
 
+    private Integer viewCount;
+
     @Builder
     public Tag(Long id, String name) {
         this.name = name;
