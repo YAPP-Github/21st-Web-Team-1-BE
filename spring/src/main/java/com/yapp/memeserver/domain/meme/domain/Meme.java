@@ -42,7 +42,4 @@ public class Meme extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
-    public void updateViewCount(){
-        this.viewCount += 1;
-    }
 }
