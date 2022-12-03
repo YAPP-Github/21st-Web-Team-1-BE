@@ -32,8 +32,8 @@ public class MemeController {
     @GetMapping("/{memeId}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemeResDto readMeme(@PathVariable final Long memeId) {
+        memeService.read(memeId);
         Meme meme = memeService.findById(memeId);
-        meme.updateViewCount();
         MemeResDto resDto = MemeResDto.of(meme);
         return resDto;
     }
