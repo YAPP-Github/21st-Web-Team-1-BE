@@ -17,7 +17,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     // 페이징 처리. 전체 밈 조회, 조회순 밈 조회에 사용
     Page<Tag> findAll(Pageable pageable);
     List<Tag> findByCategory(Category category);
-    List<Tag> findByNameContains(String word);
+    List<Tag> findByNameContainsOrderByViewCountDesc(String word);
 
     // 조회수 증가 코드. ModifiedDate를 변경시키지 않기 위함.
     @Modifying(clearAutomatically = true) // 연산 이후 영속성 컨텍스트를 clear 하도록 설정

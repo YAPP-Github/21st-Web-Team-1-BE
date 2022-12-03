@@ -50,7 +50,7 @@ public class TagService {
 
     @Transactional(readOnly = true)
     public List<Tag> findByNameContains(String word) {
-        List<Tag> tagList = tagRepository.findByNameContains(word);
+        List<Tag> tagList = tagRepository.findByNameContainsOrderByViewCountDesc(word);
         return tagList;
     }
 
