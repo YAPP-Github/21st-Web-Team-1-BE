@@ -1,0 +1,45 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/memeserver
+    username: yappuser
+    password: yapppassword
+
+  jpa:
+    database: mysql
+    hibernate:
+      # 자동으로 테이블을 만들어주는 모드. create로 두면 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
+      ddl-auto: none
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.Mysql8Dialect
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
+      schema-locations: classpath:sql/schema.sql
+
+# Actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "health"
+      base-path: "/system"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+
+# p6spy 적용
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
