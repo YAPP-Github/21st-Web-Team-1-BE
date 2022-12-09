@@ -35,6 +35,9 @@ dependencies {
 
 	// p6spy 의존성 추가
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
+
+	// Security 의존성 추가
+	implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.withType<Test> {
