@@ -6,6 +6,7 @@ import com.yapp.memeserver.domain.account.dto.UpdateAccountReqDto;
 import com.yapp.memeserver.domain.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ import javax.persistence.EntityNotFoundException;
 @Transactional
 @RequiredArgsConstructor
 public class AccountService {
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
     private final AccountRepository accountRepository;
 
@@ -42,7 +45,7 @@ public class AccountService {
             throw new IllegalStateException(requestDto.getEmail());
         }
 
-        String encodedPassword = requestDto.getPassword();
+        String encodedPassword = encodePassword(requestDto.getPassword());
         Account account = accountRepository.save(requestDto.toEntity(encodedPassword));
         return account.getId();
     }
@@ -56,5 +59,10 @@ public class AccountService {
     public void delete(Long accountId) {
         Account account = findById(accountId);
         accountRepository.delete(account);
+    }
+
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }
