@@ -38,6 +38,9 @@ dependencies {
 
 	// Security 의존성 추가
 	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	// OAuth2 의존성 추가
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 }
 
 tasks.withType<Test> {
