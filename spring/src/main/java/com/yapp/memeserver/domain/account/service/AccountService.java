@@ -53,7 +53,8 @@ public class AccountService {
     // Account를 반환하게 되면, 변경하는 Command와 조회하는 Query가 분리되지 않는다.
     public void update(Long accountId, UpdateAccountReqDto requestDto) {
         Account account = findById(accountId);
-        account.updateMyAccount(requestDto.getEmail(), requestDto.getName());
+        String encodePassword = encodePassword(requestDto.getPassword());
+        account.updateMyAccount(requestDto.getEmail(), requestDto.getName(), encodePassword);
     }
 
     public void delete(Long accountId) {
@@ -62,7 +63,7 @@ public class AccountService {
     }
 
 
-    private String encodePassword(String password) {
+    public String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
 }
