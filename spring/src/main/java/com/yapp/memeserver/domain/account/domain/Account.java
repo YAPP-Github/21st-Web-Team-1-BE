@@ -40,8 +40,9 @@ public class Account extends BaseTimeEntity {
         this.encodedPassword = encodedPassword;
     }
 
-    public void updateMyAccount(String email, String name) {
+    public void updateMyAccount(String email, String name, String encodedPassword) {
         this.email = email;
         this.name = name;
+        this.encodedPassword = encodedPassword;
     }
 }
