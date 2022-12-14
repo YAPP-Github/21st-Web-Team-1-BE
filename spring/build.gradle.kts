@@ -41,6 +41,9 @@ dependencies {
 
 	// OAuth2 의존성 추가
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+
+	// Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
 
 tasks.withType<Test> {
