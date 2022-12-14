@@ -31,6 +31,11 @@ spring:
       mode: always
       data-locations: classpath:sql/data.sql
 
+  redis:
+    host: localhost
+    port: 6379
+    password: redispw
+
 # Actuator 설정
 management:
   endpoints:
