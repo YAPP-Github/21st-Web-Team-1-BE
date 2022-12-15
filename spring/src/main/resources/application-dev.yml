@@ -1,25 +1,16 @@
 spring:
   config:
     activate:
-      on-profile: test
+      on-profile: dev
 
   datasource:
-    # H2 DB를 인메모리 모드로 둔다.
-    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    # 기본 계정이 sa에 비밀번호 없음이다.
-    username: sa
-    password:
-    # DB 커넥션과 관련된 데이터 소스 설정이 완료된다.
-    driver-class-name: org.h2.Driver
-
-  # H2 콘솔 활성화
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db_mysql:3306/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
+    database: mysql
     hibernate:
       # 자동으로 테이블을 만들어주는 모드. create로 두면 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
       ddl-auto: create
@@ -28,15 +19,16 @@ spring:
           dialect: org.hibernate.dialect.Mysql8Dialect
     defer-datasource-initialization: true
 
+  redis:
+    host: cache_redis
+    port: 6379
+    password: ${REDIS_PASSWORD}
+
   sql:
     init:
       mode: never
       data-locations: classpath:sql/data.sql
-
-  redis:
-    host: localhost
-    port: 6379
-    password: redispw
+      schema-locations: classpath:sql/schema.sql
 
 # Actuator 설정
 management:

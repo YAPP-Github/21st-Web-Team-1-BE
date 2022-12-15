@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
 class MemeRepositoryTest extends RepositoryTest {
@@ -32,7 +31,6 @@ class MemeRepositoryTest extends RepositoryTest {
         meme3 = createMeme("밈3", "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t");
     }
 
-    @DirtiesContext(methodMode = BEFORE_METHOD)
     @Test
     public void findAllPagingTest() {
         int newViewCount1 = 4;
@@ -44,6 +42,10 @@ class MemeRepositoryTest extends RepositoryTest {
         Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "viewCount");
 
         Page<Meme> result = memeRepository.findAll(pageable);
+
+        for (Meme meme : result.getContent()) {
+            System.out.println("meme.getViewCount() = " + meme.getViewCount());
+        }
 
         // 총 몇 페이지
         assertThat(result.getTotalPages()).isEqualTo(1);
@@ -57,10 +59,6 @@ class MemeRepositoryTest extends RepositoryTest {
         assertThat(result.hasNext()).isEqualTo(false);
         // 시작 페이지(0) 여부
         assertThat(result.isFirst()).isEqualTo(true);
-
-        for (Meme meme : result.getContent()) {
-            System.out.println("meme.getViewCount() = " + meme.getViewCount());
-        }
 
     }
 
