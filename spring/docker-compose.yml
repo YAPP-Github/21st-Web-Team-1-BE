@@ -11,6 +11,7 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
     env_file:
       - ./config/mysql.env
+      - ./config/tz.env
     volumes:
       - ./data/db:/var/lib/mysql
 
@@ -20,6 +21,7 @@ services:
       - "6379:6379"
     env_file:
       - ./config/redis.env
+      - ./config/tz.env
     volumes:
       - ./data/cache:/data
     command:
@@ -35,5 +37,7 @@ services:
     env_file:
       - ./config/mysql.env
       - ./config/redis.env
+      - ./config/tz.env
     depends_on:
       - db_mysql
+      - cache_redis
