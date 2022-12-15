@@ -11,6 +11,8 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
     env_file:
       - ./config/mysql.env
+    volumes:
+      - ./data/db:/var/lib/mysql
 
   cache_redis:
     image: redis:alpine
