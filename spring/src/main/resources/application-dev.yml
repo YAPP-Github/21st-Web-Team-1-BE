@@ -1,0 +1,50 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db_mysql:3306/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+  jpa:
+    database: mysql
+    hibernate:
+      # 자동으로 테이블을 만들어주는 모드. create로 두면 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
+      ddl-auto: create
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.Mysql8Dialect
+    defer-datasource-initialization: true
+
+  redis:
+    host: cache_redis
+    port: 6379
+    password: ${REDIS_PASSWORD}
+
+  sql:
+    init:
+      mode: never
+      data-locations: classpath:sql/data.sql
+      schema-locations: classpath:sql/schema.sql
+
+# Actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "health"
+      base-path: "/system"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+
+# p6spy 적용
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
