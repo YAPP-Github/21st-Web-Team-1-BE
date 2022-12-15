@@ -1,5 +1,5 @@
 spring:
   profiles:
     default:
-      - test
+      - dev
       - oauth2
