@@ -26,9 +26,9 @@ spring:
 
   sql:
     init:
-      mode: never
+      mode: always
       data-locations: classpath:sql/data.sql
-      schema-locations: classpath:sql/schema.sql
+#      schema-locations: classpath:sql/schema.sql
 
 # Actuator 설정
 management:
