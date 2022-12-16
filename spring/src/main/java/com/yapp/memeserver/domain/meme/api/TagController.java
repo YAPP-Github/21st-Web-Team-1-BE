@@ -41,6 +41,7 @@ public class TagController {
         return resDto;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/search")
     @ResponseStatus(value = HttpStatus.OK)
     public TagListResDto searchTag(@RequestParam String word) {
