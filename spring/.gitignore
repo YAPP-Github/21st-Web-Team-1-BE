@@ -39,7 +39,7 @@ out/
 
 ## 환경변수 파일
 application-oauth2.yml
-config/
+.config/
 
 ## Docker Volume
 data/
