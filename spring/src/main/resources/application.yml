@@ -1,5 +1,16 @@
 spring:
   profiles:
-    default:
-      - dev
-      - oauth2
+    default: local
+    group:
+      # H2 인메모리를 DB로 사용
+      test:
+        - common
+        - oauth2
+      # Local의 MySQL을 DB로 사용
+      local:
+        - common
+        - oauth2
+      # Docker 내부의 MySQL을 DB로 사용
+      prod:
+        - common
+        - oauth2
