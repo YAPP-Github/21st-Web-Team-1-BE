@@ -30,19 +30,6 @@ spring:
       data-locations: classpath:sql/data.sql
 #      schema-locations: classpath:sql/schema.sql
 
-# Actuator 설정
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - "health"
-      base-path: "/system"
-  endpoint:
-    health:
-      enabled: true
-      show-details: always
-
 # p6spy 적용
 decorator:
   datasource:
