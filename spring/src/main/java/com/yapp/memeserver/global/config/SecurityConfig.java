@@ -1,6 +1,7 @@
 package com.yapp.memeserver.global.config;
 
 import com.yapp.memeserver.domain.auth.service.CustomOAuth2UserService;
+import com.yapp.memeserver.domain.auth.service.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     // Spring Security에서 제공하는 비밀번호 암호화 클래스.
     // Service에서 사용할 수 있도록 Bean으로 등록한다.
@@ -37,7 +39,9 @@ public class SecurityConfig {
                 .oauth2Login() // oauth2 로그인 시작점
                 .userInfoEndpoint() // 로그인 성공하면 사용자 정보 가져올 때 설정을 담당
                 // oauth2 로그인에 성공하면, 유저 데이터를 가지고 아래 Service에서 처리하겠다.
-                .userService(customOAuth2UserService);
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler);
 
         return http.build();
     }
