@@ -3,11 +3,9 @@ package com.yapp.memeserver.domain.auth.service;
 
 import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.account.repository.AccountRepository;
-import com.yapp.memeserver.domain.account.service.AccountService;
 import com.yapp.memeserver.domain.auth.dto.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
