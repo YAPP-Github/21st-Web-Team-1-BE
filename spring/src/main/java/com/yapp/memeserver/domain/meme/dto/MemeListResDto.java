@@ -21,7 +21,8 @@ public class MemeListResDto {
     @Getter
     public static class SingleMeme {
         private Long memeId;
-        private String title;
+        private String name;
+        private String description;
         private String imageUrl;
         private Integer viewCount;
         private LocalDateTime createDate;
@@ -29,7 +30,8 @@ public class MemeListResDto {
 
         public SingleMeme(Meme meme) {
             this.memeId = meme.getId();
-            this.title = meme.getTitle();
+            this.name = meme.getName();
+            this.description = meme.getDescription();
             this.imageUrl = meme.getImageUrl();
             this.viewCount = meme.getViewCount();
             this.createDate = meme.getCreateDate();
