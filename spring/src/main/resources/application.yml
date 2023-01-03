@@ -1,6 +1,6 @@
 spring:
   profiles:
-    default: dev
+    default: local
     group:
       # H2 인메모리를 DB로 사용
       test:
