@@ -72,9 +72,9 @@ class MemeRepositoryTest extends RepositoryTest {
         assertThat(memeRepository.findById(memeId).get().getViewCount()).isEqualTo(1); // 새로 조회해서 반영 됨
     }
 
-    private Meme createMeme(String title, String imageUrl) {
+    private Meme createMeme(String name, String imageUrl) {
         Meme meme = Meme.builder()
-                .title(title)
+                .name(name)
                 .imageUrl(imageUrl)
                 .build();
         return memeRepository.save(meme);
