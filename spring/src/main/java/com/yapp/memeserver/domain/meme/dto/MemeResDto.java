@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class MemeResDto {
 
     private Long memeId;
-    private String title;
+    private String name;
+    private String description;
     private String imageUrl;
     private Integer viewCount;
     private LocalDateTime createDate;
@@ -23,7 +24,8 @@ public class MemeResDto {
     public static MemeResDto of(Meme meme) {
         return MemeResDto.builder()
                 .memeId(meme.getId())
-                .title(meme.getTitle())
+                .name(meme.getName())
+                .description(meme.getDescription())
                 .imageUrl(meme.getImageUrl())
                 .viewCount(meme.getViewCount())
                 .createDate(meme.getCreateDate())
