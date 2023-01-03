@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ public class Tag {
     private Long id;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
-    @Column(length = 50)
+    @Size(min = 1, max = 50)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
