@@ -25,7 +25,7 @@ public class MemeListResDto {
         private String description;
         private String imageUrl;
         private Integer viewCount;
-        private LocalDateTime createDate;
+        private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
         public SingleMeme(Meme meme) {
@@ -34,7 +34,7 @@ public class MemeListResDto {
             this.description = meme.getDescription();
             this.imageUrl = meme.getImageUrl();
             this.viewCount = meme.getViewCount();
-            this.createDate = meme.getCreateDate();
+            this.createdDate = meme.getCreatedDate();
             this.modifiedDate = meme.getModifiedDate();
         }
 

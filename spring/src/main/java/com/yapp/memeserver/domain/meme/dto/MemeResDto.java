@@ -18,7 +18,7 @@ public class MemeResDto {
     private String description;
     private String imageUrl;
     private Integer viewCount;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
     public static MemeResDto of(Meme meme) {
@@ -28,7 +28,7 @@ public class MemeResDto {
                 .description(meme.getDescription())
                 .imageUrl(meme.getImageUrl())
                 .viewCount(meme.getViewCount())
-                .createDate(meme.getCreateDate())
+                .createdDate(meme.getCreatedDate())
                 .modifiedDate(meme.getModifiedDate())
                 .build();
     }
