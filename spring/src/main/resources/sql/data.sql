@@ -3,8 +3,8 @@ INSERT INTO meme(name, view_count, created_date) VALUES('안녕9', 9, now());
 INSERT INTO meme(name, view_count, created_date) VALUES('안녕4', 4, now());
 INSERT INTO meme(name, view_count, created_date) VALUES('안녕2', 2, now());
 
-INSERT INTO category(name) VALUES('카테고리 명1');
-INSERT INTO category(name) VALUES('카테고리 명2');
+INSERT INTO category(name, priority) VALUES('카테고리 명1', 100);
+INSERT INTO category(name, priority) VALUES('카테고리 명2', 200);
 
 INSERT INTO tag(name, view_count, category_id) VALUES('태그 제목1', 1, 1);
 INSERT INTO tag(name, view_count, category_id) VALUES('태그 제목2', 10, 2);
