@@ -32,7 +32,7 @@ public class Tag {
     private Integer viewCount;
 
     @Builder
-    public Tag(Long id, String name) {
+    public Tag(String name) {
         this.name = name;
         this.viewCount = 0;
     }
