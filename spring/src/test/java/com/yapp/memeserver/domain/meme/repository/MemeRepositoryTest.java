@@ -26,9 +26,9 @@ class MemeRepositoryTest extends RepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        meme1 = createMeme("밈1", "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t");
-        meme2 = createMeme("밈2", "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t");
-        meme3 = createMeme("밈3", "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t");
+        meme1 = createMeme("밈1");
+        meme2 = createMeme("밈2");
+        meme3 = createMeme("밈3");
     }
 
     @Test
@@ -72,10 +72,9 @@ class MemeRepositoryTest extends RepositoryTest {
         assertThat(memeRepository.findById(memeId).get().getViewCount()).isEqualTo(1); // 새로 조회해서 반영 됨
     }
 
-    private Meme createMeme(String name, String imageUrl) {
+    private Meme createMeme(String name) {
         Meme meme = Meme.builder()
                 .name(name)
-                .imageUrl(imageUrl)
                 .build();
         return memeRepository.save(meme);
     }

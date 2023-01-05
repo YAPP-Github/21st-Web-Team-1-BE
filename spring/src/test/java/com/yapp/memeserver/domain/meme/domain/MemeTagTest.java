@@ -8,10 +8,9 @@ class MemeTagTest {
     @Test
     void 밈_생성_테스트() {
         String name = "밈 제목";
-        String imageUrl = "https://user-images.githubusercontent.com/62461857/201794604-7f9f6389-1bc9-44e2-8dbb-eb7b1fd3c513.png";
         String tagName = "태그명";
 
-        Meme meme = createMeme(name, imageUrl);
+        Meme meme = createMeme(name);
         Tag tag = createTag(tagName);
         MemeTag memeTag = createMemeTag(meme, tag);
 
@@ -26,10 +25,9 @@ class MemeTagTest {
                 .build();
     }
 
-    private Meme createMeme(String name, String imageUrl) {
+    private Meme createMeme(String name) {
         return Meme.builder()
                 .name(name)
-                .imageUrl(imageUrl)
                 .build();
     }
 
