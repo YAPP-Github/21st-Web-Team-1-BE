@@ -43,9 +43,9 @@ public class TagController {
 
     @GetMapping("/search")
     @ResponseStatus(value = HttpStatus.OK)
-    public TagListResDto searchTag(@RequestParam String word) {
+    public SingleTagListResDto searchTag(@RequestParam String word) {
         List<Tag> tagList = tagService.findByNameContains(word);
-        TagListResDto resDto = TagListResDto.of(tagList);
+        SingleTagListResDto resDto = SingleTagListResDto.of(tagList);
         return resDto;
     }
 
