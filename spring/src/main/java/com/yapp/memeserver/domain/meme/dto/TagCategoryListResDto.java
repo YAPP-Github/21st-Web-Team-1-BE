@@ -21,9 +21,9 @@ public class TagCategoryListResDto {
         private Long categoryId;
         private String name;
         private Integer priority;
-        private List<TagListResDto.SingleTag> tags;
+        private List<SingleTagDto> tags;
 
-        public SingleCategory(Category category, List<TagListResDto.SingleTag> tagList) {
+        public SingleCategory(Category category, List<SingleTagDto> tagList) {
             this.name = category.getName();
             this.categoryId = category.getId();
             this.priority = category.getPriority();
@@ -31,7 +31,7 @@ public class TagCategoryListResDto {
         }
 
         public static SingleCategory of(Category category) {
-            return new SingleCategory(category, category.getTagList().stream().map(TagListResDto.SingleTag::of).collect(Collectors.toList()));
+            return new SingleCategory(category, category.getTagList().stream().map(SingleTagDto::of).collect(Collectors.toList()));
         }
     }
 
