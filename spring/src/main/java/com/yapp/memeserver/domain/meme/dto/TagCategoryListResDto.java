@@ -24,8 +24,8 @@ public class TagCategoryListResDto {
         private List<SingleTagDto> tags;
 
         public SingleCategory(Category category, List<SingleTagDto> tagList) {
-            this.name = category.getName();
             this.categoryId = category.getId();
+            this.name = category.getName();
             this.priority = category.getPriority();
             this.tags = tagList;
         }
