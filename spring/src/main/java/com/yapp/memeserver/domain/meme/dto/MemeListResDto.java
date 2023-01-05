@@ -23,18 +23,18 @@ public class MemeListResDto {
         private Long memeId;
         private String name;
         private String description;
-        private String imageUrl;
         private Integer viewCount;
-        private LocalDateTime createDate;
+        private Integer shareCount;
+        private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
         public SingleMeme(Meme meme) {
             this.memeId = meme.getId();
             this.name = meme.getName();
             this.description = meme.getDescription();
-            this.imageUrl = meme.getImageUrl();
             this.viewCount = meme.getViewCount();
-            this.createDate = meme.getCreateDate();
+            this.shareCount = meme.getShareCount();
+            this.createdDate = meme.getCreatedDate();
             this.modifiedDate = meme.getModifiedDate();
         }
 

@@ -1,6 +1,7 @@
 package com.yapp.memeserver.domain.meme.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,18 @@ public class Category {
     @Size(min = 1, max = 50)
     private String name;
 
+    private Integer priority;
+
+    @Builder
+    public Category(String name) {
+        this.name = name;
+        this.priority = 100;
+    }
     public void updateCategory(String name) {
         this.name = name;
+    }
+
+    public void updatePriority(Integer priority) {
+        this.priority = priority;
     }
 }

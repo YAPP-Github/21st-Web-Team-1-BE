@@ -32,8 +32,9 @@ public class Tag {
     private Integer viewCount;
 
     @Builder
-    public Tag(Long id, String name) {
+    public Tag(String name, Category category) {
         this.name = name;
+        this.category = category;
         this.viewCount = 0;
     }
 

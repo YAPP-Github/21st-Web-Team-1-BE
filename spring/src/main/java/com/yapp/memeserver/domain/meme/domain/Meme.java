@@ -28,25 +28,20 @@ public class Meme extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @NotNull(message = "이미지 URL은 필수로 입력되어야 합니다.")
-    @URL
-    @Size(max = 2048)
-    private String imageUrl;
-
     private Integer viewCount;
 
+    private Integer shareCount;
+
     @Builder
-    public Meme(String name, String description, String imageUrl) {
+    public Meme(String name, String description) {
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.viewCount = 0;
+        this.shareCount = 0;
     }
 
-    public void updateMeme(String name, String description, String imageUrl) {
+    public void updateMeme(String name, String description) {
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
     }
-
 }

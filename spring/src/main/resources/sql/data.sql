@@ -1,7 +1,7 @@
-INSERT INTO meme(name, image_url, view_count, create_date) VALUES('안녕1', 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t', 1, now());
-INSERT INTO meme(name, image_url, view_count, create_date) VALUES('안녕9', 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t', 9, now());
-INSERT INTO meme(name, image_url, view_count, create_date) VALUES('안녕4', 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t', 4, now());
-INSERT INTO meme(name, image_url, view_count, create_date) VALUES('안녕2', 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cad31965-0c62-44ca-ae45-4e050d4ec9b8t', 2, now());
+INSERT INTO meme(name, view_count, created_date) VALUES('안녕1', 1, now());
+INSERT INTO meme(name, view_count, created_date) VALUES('안녕9', 9, now());
+INSERT INTO meme(name, view_count, created_date) VALUES('안녕4', 4, now());
+INSERT INTO meme(name, view_count, created_date) VALUES('안녕2', 2, now());
 
 INSERT INTO category(name) VALUES('카테고리 명1');
 INSERT INTO category(name) VALUES('카테고리 명2');
