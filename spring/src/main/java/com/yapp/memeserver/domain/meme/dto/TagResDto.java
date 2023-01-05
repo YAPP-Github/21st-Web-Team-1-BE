@@ -15,17 +15,18 @@ public class TagResDto {
 
     private Long tagId;
     private String name;
+    private Integer viewCount;
     private Long categoryId;
     private String categoryName;
-    private Integer viewCount;
+
 
     public static TagResDto of(Tag tag) {
         return TagResDto.builder()
                 .tagId(tag.getId())
                 .name(tag.getName())
+                .viewCount(tag.getViewCount())
                 .categoryId(tag.getCategory().getId())
                 .categoryName(tag.getCategory().getName())
-                .viewCount(tag.getViewCount())
                 .build();
     }
 

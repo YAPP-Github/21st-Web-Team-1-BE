@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TagListResDto {
+public class SingleTagListResDto {
 
-    private List<TagResDto> tags;
+    private List<SingleTagDto> tags;
 
-    public static TagListResDto of(List<Tag> tagList) {
-        return TagListResDto.builder()
-                .tags(tagList.stream().map(TagResDto::of).collect(Collectors.toList()))
+    public static SingleTagListResDto of(List<Tag> tagList) {
+        return SingleTagListResDto.builder()
+                .tags(tagList.stream().map(SingleTagDto::of).collect(Collectors.toList()))
                 .build();
     }
 }
