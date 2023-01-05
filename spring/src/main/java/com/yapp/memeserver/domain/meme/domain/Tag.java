@@ -31,6 +31,12 @@ public class Tag {
 
     private Integer viewCount;
 
+
+    // 연관관계 편의 메소드
+    protected void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Builder
     public Tag(String name, Category category) {
         this.name = name;
