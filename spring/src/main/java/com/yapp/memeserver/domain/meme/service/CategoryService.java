@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,5 +24,9 @@ public class CategoryService {
     public Category findById(Long categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id를 가진 Tag 을 찾을 수 없습니다. id = "+ categoryId ));
+    }
+
+    public List<Category> findAllOrderByPriority() {
+        return categoryRepository.findAllByOrderByPriorityAsc();
     }
 }

@@ -1,11 +1,10 @@
 package com.yapp.memeserver.domain.meme.api;
 
+import com.yapp.memeserver.domain.meme.domain.Category;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import com.yapp.memeserver.domain.meme.domain.Tag;
-import com.yapp.memeserver.domain.meme.dto.MemeListResDto;
-import com.yapp.memeserver.domain.meme.dto.MemeResDto;
-import com.yapp.memeserver.domain.meme.dto.TagListResDto;
-import com.yapp.memeserver.domain.meme.dto.TagResDto;
+import com.yapp.memeserver.domain.meme.dto.*;
+import com.yapp.memeserver.domain.meme.service.CategoryService;
 import com.yapp.memeserver.domain.meme.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +16,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/tags")
 @RequiredArgsConstructor
 public class TagController {
 
     private final TagService tagService;
-
+    private final CategoryService categoryService;
 
     @GetMapping()
     @ResponseStatus(value = HttpStatus.OK)
@@ -41,12 +41,19 @@ public class TagController {
         return resDto;
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/search")
     @ResponseStatus(value = HttpStatus.OK)
     public TagListResDto searchTag(@RequestParam String word) {
         List<Tag> tagList = tagService.findByNameContains(word);
         TagListResDto resDto = TagListResDto.of(tagList);
+        return resDto;
+    }
+
+    @GetMapping("/categories")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagCategoryListResDto readTagCetegory(   ) {
+        List<Category> categoryList = categoryService.findAllOrderByPriority();
+        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList);
         return resDto;
     }
 }
