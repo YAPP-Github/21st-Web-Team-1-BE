@@ -17,6 +17,7 @@ class MemeTest {
         assertThat(meme.getName()).isEqualTo(name);
         assertThat(meme.getImageUrl()).isEqualTo(imageUrl);
         assertThat(meme.getViewCount()).isEqualTo(0);
+        assertThat(meme.getShareCount()).isEqualTo(0);
     }
 
     @Test
