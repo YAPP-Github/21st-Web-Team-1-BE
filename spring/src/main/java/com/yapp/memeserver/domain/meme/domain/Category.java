@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +26,16 @@ public class Category {
     private String name;
 
     private Integer priority;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tag> tagList = new ArrayList<>();
+
+
+    // 연관관계 편의 메소드
+    public void addTag(Tag tag) {
+        tagList.add(tag);
+        tag.setCategory(this);
+    }
 
     @Builder
     public Category(String name) {
