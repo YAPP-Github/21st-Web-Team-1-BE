@@ -1,5 +1,6 @@
 package com.yapp.memeserver.domain.meme.dto;
 
+import com.yapp.memeserver.domain.meme.domain.Image;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,6 +22,7 @@ public class MemeResDto {
     private Integer shareCount;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private ImageListResDto image;
 
     public static MemeResDto of(Meme meme) {
         return MemeResDto.builder()
@@ -30,6 +33,7 @@ public class MemeResDto {
                 .shareCount(meme.getShareCount())
                 .createdDate(meme.getCreatedDate())
                 .modifiedDate(meme.getModifiedDate())
+                .image(ImageListResDto.of(meme.getImageList()))
                 .build();
     }
 

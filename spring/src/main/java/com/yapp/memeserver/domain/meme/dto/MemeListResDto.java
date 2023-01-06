@@ -27,6 +27,8 @@ public class MemeListResDto {
         private Integer shareCount;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
+        private ImageListResDto image;
+
 
         public SingleMeme(Meme meme) {
             this.memeId = meme.getId();
@@ -36,6 +38,7 @@ public class MemeListResDto {
             this.shareCount = meme.getShareCount();
             this.createdDate = meme.getCreatedDate();
             this.modifiedDate = meme.getModifiedDate();
+            this.image = ImageListResDto.of(meme.getImageList());
         }
 
         public static SingleMeme of(Meme meme) {
