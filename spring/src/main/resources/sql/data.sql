@@ -15,10 +15,11 @@ INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images
 INSERT INTO category(name, priority) VALUES('카테고리 명1', 100);
 INSERT INTO category(name, priority) VALUES('카테고리 명2', 200);
 
-INSERT INTO tag(name, view_count, category_id) VALUES('개발자', 1, 1);
-INSERT INTO tag(name, view_count, category_id) VALUES('에브리타임', 10, 2);
-INSERT INTO tag(name, view_count, category_id) VALUES('시험기간', 14, 2);
-INSERT INTO tag(name, view_count, category_id) VALUES('페페', 6, 1);
+INSERT INTO tag(name, view_count, category_id) VALUES('개발자', 52, 1);
+INSERT INTO tag(name, view_count, category_id) VALUES('에브리타임', 49, 2);
+INSERT INTO tag(name, view_count, category_id) VALUES('시험기간', 34, 2);
+INSERT INTO tag(name, view_count, category_id) VALUES('페페', 26, 1);
+INSERT INTO tag(name, view_count, category_id) VALUES('유머', 140, 1);
 INSERT INTO tag(name, view_count, category_id) VALUES('태그 제목5', 11, 1);
 INSERT INTO tag(name, view_count, category_id) VALUES('무', 11, 1);
 INSERT INTO tag(name, view_count, category_id) VALUES('무시', 18, 1);
@@ -34,5 +35,8 @@ INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(1, 1);
 INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(2, 2);
 INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(2, 3);
 INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(3, 4);
+INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(1, 5);
+INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(2, 5);
+INSERT INTO meme_tag(MEME_ID, TAG_ID) VALUES(3, 5);
 
 
