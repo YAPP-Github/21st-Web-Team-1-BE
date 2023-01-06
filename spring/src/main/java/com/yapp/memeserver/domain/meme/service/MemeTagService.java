@@ -26,9 +26,20 @@ public class MemeTagService {
     }
 
     @Transactional(readOnly = true)
+    public List<MemeTag> findByTag(Tag tag) {
+        return memeTagRepository.findByTag(tag);
+    }
+
+    @Transactional(readOnly = true)
     public List<Tag> findTagMemeList(List<MemeTag> memeTagList) {
         return memeTagList.stream()
                 .map(MemeTag::getTag)
+                .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<Meme> findMemeTagList(List<MemeTag> memeTagList) {
+        return memeTagList.stream()
+                .map(MemeTag::getMeme)
                 .collect(Collectors.toList());
     }
 }
