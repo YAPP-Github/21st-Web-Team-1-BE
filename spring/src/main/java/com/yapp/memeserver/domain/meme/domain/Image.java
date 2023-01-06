@@ -37,6 +37,12 @@ public class Image {
     @JoinColumn(name = "meme_id", updatable = false)
     private Meme meme;
 
+
+    // 연관관계 편의 메소드
+    protected void setMeme(Meme meme) {
+        this.meme = meme;
+    }
+
     @Builder
     public Image(String imageUrl, Integer width, Integer height, Meme meme) {
         this.imageUrl = imageUrl;
