@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +33,15 @@ public class Meme extends BaseTimeEntity {
     private Integer viewCount;
 
     private Integer shareCount;
+
+    @OneToMany(mappedBy = "meme", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> imageList = new ArrayList<>();
+
+    // 연관관계 편의 메소드
+    public void addImage(Image image) {
+        imageList.add(image);
+        image.setMeme(this);
+    }
 
     @Builder
     public Meme(String name, String description) {
