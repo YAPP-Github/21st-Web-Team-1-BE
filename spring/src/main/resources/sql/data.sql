@@ -1,15 +1,15 @@
-INSERT INTO meme(name, view_count, share_count, created_date) VALUES('php', 115, 5, now());
-INSERT INTO meme(name, view_count, share_count, created_date) VALUES('에타 시험기간', 93, 5, now());
-INSERT INTO meme(name, view_count, share_count, created_date) VALUES('페페', 45, 5, now());
+INSERT INTO meme(name, description, view_count, share_count, created_date) VALUES('php', 'php 개발자 밈입니다.', 115, 5, now());
+INSERT INTO meme(name, description, view_count, share_count, created_date) VALUES('에타 시험기간', '에타 시험기간 밈 모음입니다', 93, 5, now());
+INSERT INTO meme(name, description, view_count, share_count, created_date) VALUES('페페', '초록 개구리 페페 밈입니다.', 45, 5, now());
 INSERT INTO meme(name, view_count, share_count, created_date) VALUES('안녕1', 2, 5, now());
 INSERT INTO meme(name, view_count, share_count, created_date) VALUES('안녕2', 3, 5, now());
 INSERT INTO meme(name, view_count, share_count, created_date) VALUES('안녕3', 14, 5, now());
 
-INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932543-7a8c2025-f162-4ffa-8486-8ca425cc2cf8.png', 960, 987, 1);
-INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932649-cc578130-3689-4b78-941b-d42828127b79.png', 517, 706, 2);
-INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932697-6609ff9b-431c-4eab-ac77-060ce29a9222.png', 466, 631, 2);
-INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932754-083d9814-691e-4ce0-8e9f-8f1fe7eb6f2e.png', 488, 566, 2);
-INSERT INTO Image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932924-a7c42ce4-266d-4cbd-ae0d-8f09dd4f8a50.png', 225, 225, 3);
+INSERT INTO image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932543-7a8c2025-f162-4ffa-8486-8ca425cc2cf8.png', 960, 987, 1);
+INSERT INTO image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932649-cc578130-3689-4b78-941b-d42828127b79.png', 517, 706, 2);
+INSERT INTO image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932697-6609ff9b-431c-4eab-ac77-060ce29a9222.png', 466, 631, 2);
+INSERT INTO image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932754-083d9814-691e-4ce0-8e9f-8f1fe7eb6f2e.png', 488, 566, 2);
+INSERT INTO image(image_url, width, height, meme_id) VALUES('https://user-images.githubusercontent.com/62461857/210932924-a7c42ce4-266d-4cbd-ae0d-8f09dd4f8a50.png', 225, 225, 3);
 
 
 INSERT INTO category(name, priority) VALUES('카테고리 명1', 100);
