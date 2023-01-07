@@ -12,7 +12,6 @@ services:
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
       - "--lower_case_table_names=2"
-
     env_file:
       - ./config/mysql.env
       - ./config/tz.env
@@ -58,5 +57,17 @@ services:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/log:/var/log/nginx
+      - ./certbot/www:/var/www/certbot/:ro    # ssl 인증 시 접근 경로
+      - ./certbot/conf/:/etc/nginx/ssl/:ro    # ssl 인증서 생성 위치
     depends_on:
       - app_spring
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot_meme
+    volumes:
+      - ./certbot/www/:/var/www/certbot/    # ssl 인증 시 접근 경로
+      - ./certbot/conf/:/etc/letsencrypt/    # ssl 인증서 생성 위치
+      - ./certbot/log/:/var/log/letsencrypt/    # 로그 위치
+    depends_on:
+      - nginx
