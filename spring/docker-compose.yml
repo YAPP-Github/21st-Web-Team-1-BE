@@ -45,3 +45,18 @@ services:
     depends_on:
       - db_mysql
       - cache_redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_meme
+    ports:
+      - 80:80
+      - 443:443    # https 443 포트 추가
+    restart: on-failure
+    volumes:
+      - ./spring:/usr/src/app
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - app_spring
