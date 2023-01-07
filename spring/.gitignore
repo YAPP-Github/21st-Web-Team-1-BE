@@ -43,3 +43,6 @@ config/
 
 ## Docker Volume
 data/
+
+## nginx log
+log/
