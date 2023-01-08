@@ -20,6 +20,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/memes")
 @RequiredArgsConstructor
 public class MemeController {
@@ -36,7 +37,6 @@ public class MemeController {
         return resDto;
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/{memeId}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemeResDto readMeme(@PathVariable final Long memeId) {
