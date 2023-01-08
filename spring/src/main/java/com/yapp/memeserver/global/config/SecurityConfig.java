@@ -31,15 +31,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()      // Http basic Auth  기반으로 로그인 인증창이 뜸.  disable 시에 인증창 뜨지 않음.
-                .cors().configurationSource(corsConfigurationSource()) // CorsConfigurationSource 를 cors 정책의 설정파일 등록
-                .and()
                 .csrf().disable() // Non-Browser Clients만을 위한 API 서버이므로, csrf 보호기능 해제
                 .headers().frameOptions().sameOrigin() // h2-console 화면을 보기 위한 처리.
 
                 .and()
                 .authorizeRequests() // URL 별로 리소스에 대한 접근 권한 관리
                 .anyRequest().permitAll()// 우선 다 허용
+                .and()
+                .cors().configurationSource(corsConfigurationSource()) // CorsConfigurationSource 를 cors 정책의 설정파일 등록
 
                 .and()
                 .oauth2Login() // oauth2 로그인 시작점
