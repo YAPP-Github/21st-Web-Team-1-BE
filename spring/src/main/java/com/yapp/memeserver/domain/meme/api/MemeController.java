@@ -20,7 +20,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/memes")
 @RequiredArgsConstructor
 public class MemeController {

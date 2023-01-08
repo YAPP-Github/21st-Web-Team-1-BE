@@ -19,7 +19,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/tags")
 @RequiredArgsConstructor
 public class TagController {
