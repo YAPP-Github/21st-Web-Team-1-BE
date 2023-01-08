@@ -13,6 +13,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Collections;
+
 @Configuration
 @EnableWebSecurity  // Spring Security 설정 활성화
 @RequiredArgsConstructor
@@ -37,8 +39,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests() // URL 별로 리소스에 대한 접근 권한 관리
                 .anyRequest().permitAll()// 우선 다 허용
-                .and()
-                .cors().configurationSource(corsConfigurationSource()) // CorsConfigurationSource 를 cors 정책의 설정파일 등록
+//                .and()
+//                .cors().configurationSource(corsConfigurationSource()) // CorsConfigurationSource 를 cors 정책의 설정파일 등록
 
                 .and()
                 .oauth2Login() // oauth2 로그인 시작점
@@ -56,10 +58,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));;
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
