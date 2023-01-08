@@ -36,6 +36,7 @@ public class MemeController {
         return resDto;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/{memeId}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemeResDto readMeme(@PathVariable final Long memeId) {
