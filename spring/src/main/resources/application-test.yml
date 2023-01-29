@@ -38,6 +38,9 @@ spring:
     port: 6379
     password: redispw
 
+  jwt:
+    secret: "springtesttesttesttesttesttesttest"
+
 
 # p6spy 적용
 decorator:
