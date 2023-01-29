@@ -19,16 +19,20 @@ spring:
           dialect: org.hibernate.dialect.Mysql8Dialect
     defer-datasource-initialization: true
 
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql
+  #      schema-locations: classpath:sql/schema.sql
+
   redis:
     host: cache_redis
     port: 6379
     password: ${REDIS_PASSWORD}
 
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:sql/data.sql
-#      schema-locations: classpath:sql/schema.sql
+  jwt:
+    secret: ${SPRING_JWT_SECRET}
+
 
 # p6spy 적용
 decorator:
