@@ -25,7 +25,7 @@ import java.util.Collections;
 @EnableMethodSecurity(prePostEnabled = true) // preAuthorize 활성화
 @EnableWebSecurity  // Spring Security 설정 활성화
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfiguration {
 
     private final JwtEntryPoint jwtEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
