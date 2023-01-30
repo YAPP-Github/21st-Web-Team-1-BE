@@ -6,9 +6,11 @@ import com.yapp.memeserver.domain.account.dto.MyAccountResDto;
 import com.yapp.memeserver.domain.account.dto.SignUpReqDto;
 import com.yapp.memeserver.domain.account.dto.UpdateAccountReqDto;
 import com.yapp.memeserver.domain.account.service.AccountService;
+import com.yapp.memeserver.domain.auth.service.AuthUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,9 +32,11 @@ public class AccountController {
     }
 
 
-    @GetMapping("/{accountId}")
-    public MyAccountResDto getMyAccount(@PathVariable final Long accountId) {
-        Account account = accountService.findById(accountId);
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public MyAccountResDto getMyAccount(@AuthUser Account account) {
+        log.info(account.getEmail());
+        System.out.println("account = " + account);
         return new MyAccountResDto(account);
     }
 
