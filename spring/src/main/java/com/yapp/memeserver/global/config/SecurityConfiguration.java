@@ -2,13 +2,19 @@ package com.yapp.memeserver.global.config;
 
 import com.yapp.memeserver.domain.auth.service.CustomOAuth2UserService;
 import com.yapp.memeserver.domain.auth.service.OAuth2AuthenticationSuccessHandler;
+import com.yapp.memeserver.global.jwt.JwtAccessDeniedHandler;
+import com.yapp.memeserver.global.jwt.JwtEntryPoint;
+import com.yapp.memeserver.global.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,10 +22,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Collections;
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true) // preAuthorize 활성화
 @EnableWebSecurity  // Spring Security 설정 활성화
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfiguration {
 
+    private final JwtEntryPoint jwtEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtFilter jwtFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
@@ -48,7 +58,19 @@ public class SecurityConfig {
                 // oauth2 로그인에 성공하면, 유저 데이터를 가지고 아래 Service에서 처리하겠다.
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler);
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+
+                .and() // 시큐리티는 기본적으로 세션을 사용하지만, 우리는 세션을 사용하지 않기 때문에 Stateless로 설정
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                // JwtFilter를 인증을 처리하는 UsernamePasswordAuthenticationFilter 전에 추가한다.
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling() // 예외 처리 기능 작동
+                .authenticationEntryPoint(jwtEntryPoint) // 인증 실패시 처리
+                .accessDeniedHandler(jwtAccessDeniedHandler); // 인가 실패시 처리
 
         return http.build();
     }
