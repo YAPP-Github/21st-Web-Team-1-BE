@@ -38,6 +38,7 @@ services:
       - "8080:8080"
     restart: on-failure
     env_file:
+      - ./config/spring.env
       - ./config/mysql.env
       - ./config/redis.env
       - ./config/tz.env
