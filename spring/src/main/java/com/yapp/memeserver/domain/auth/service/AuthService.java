@@ -18,16 +18,14 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
-    public AccessTokenDto refresh(AccessTokenDto requestDto, String refreshToken) {
+    public AccessTokenDto refresh(String refreshToken) {
         // 들어온 refreshToekn 검증
         if (!jwtProvider.validateToken(refreshToken)) {
             log.error("유효하지 않은 토큰입니다. {}", refreshToken);
             throw new RuntimeException("Refresh Token 검증에 실패한 토큰입니다. : " + refreshToken);
         }
-
-        // accessToken에서 Authentication 추출하기
-        String accessToken = requestDto.getAccessToken();
-        Authentication authentication = jwtProvider.getAuthentication(accessToken);
+        // refreshToken에서 Authentication 추출하기
+        Authentication authentication = jwtProvider.getAuthentication(refreshToken);
 
         // Redis의 RefreshToken을 가져오면서, 로그아웃된 사용자인 경우 예외 처리
         String findRefreshToken = redisService.getRefreshToken(authentication.getName())

@@ -56,7 +56,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     public ResponseCookie generateRefreshTokenCookie(String email) {
-        String refreshToken = jwtProvider.generateRefreshToken();
+        String refreshToken = jwtProvider.generateRefreshToken(email);
         Long refreshTokenValidationMs = jwtProvider.getRefreshTokenValidationMs();
 
         redisService.setData("RefreshToken:" + email, refreshToken, refreshTokenValidationMs);
