@@ -61,9 +61,10 @@ public class JwtProvider {
     }
 
     // RefreshToken 생성
-    public String generateRefreshToken() {
+    public String generateRefreshToken(String email) {
 
         Claims claims = Jwts.claims()
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidationMs));
 
