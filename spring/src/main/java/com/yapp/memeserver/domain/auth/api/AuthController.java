@@ -22,12 +22,11 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/refresh")
-    public ResponseEntity<AccessTokenDto> refresh(@RequestBody AccessTokenDto requestDto,
-                                                  @CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
+    public ResponseEntity<AccessTokenDto> refresh(@CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
 
         String refreshToken = rtCookie.getValue();
 
-        AccessTokenDto resDto = authService.refresh(requestDto, refreshToken);
+        AccessTokenDto resDto = authService.refresh(refreshToken);
 
         return ResponseEntity.ok()
                 .body(resDto);
