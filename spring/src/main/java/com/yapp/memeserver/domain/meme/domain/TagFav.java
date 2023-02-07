@@ -2,6 +2,7 @@ package com.yapp.memeserver.domain.meme.domain;
 
 import com.yapp.memeserver.domain.account.domain.Account;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,9 @@ public class TagFav {
     @JoinColumn(name = "account_id", updatable = false)
     private Account account;
 
+    @Builder
+    public TagFav(Tag tag, Account account) {
+        this.tag = tag;
+        this.account = account;
+    }
 }
