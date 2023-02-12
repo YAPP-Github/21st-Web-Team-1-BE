@@ -18,6 +18,7 @@ public class TagResDto {
     private Integer viewCount;
     private Long categoryId;
     private String categoryName;
+    private Boolean isFav;
 
 
     public static TagResDto of(Tag tag) {
@@ -27,7 +28,12 @@ public class TagResDto {
                 .viewCount(tag.getViewCount())
                 .categoryId(tag.getCategory().getId())
                 .categoryName(tag.getCategory().getName())
+                .isFav(false)
                 .build();
+    }
+
+    public void setFav(boolean isFav) {
+        this.isFav = isFav;
     }
 
 }
