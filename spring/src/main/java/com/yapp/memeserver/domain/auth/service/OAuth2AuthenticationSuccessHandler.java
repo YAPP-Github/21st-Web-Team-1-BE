@@ -49,7 +49,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     // UTF-8로 인코딩 해서 반환.
     private String makeRedirectUrl(String email, String referer) {
         if (referer == null) {
-            referer = "https://app.thismeme.me/";
+            referer = "https://stage.thismeme.me/";
         }
 
         String accessToken = jwtProvider.generateAccessToken(email);
