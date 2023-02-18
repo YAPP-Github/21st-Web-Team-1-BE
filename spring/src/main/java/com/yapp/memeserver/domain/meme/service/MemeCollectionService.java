@@ -59,4 +59,17 @@ public class MemeCollectionService {
         accountRepository.updateSaveCount(account.getId(), -1);
         memeCollectionRepository.delete(memeCollection);
     }
+
+    public void createShare(Meme meme, Account account) {
+        Collection collection = collectionService.findSharedCollection(account);
+        if (isExistsByMemeAndCollection(meme, collection)) {
+            throw new RuntimeException("이미 밈 공유 콜렉션에 추가되었습니다.");
+        }
+        MemeCollection memeCollection = MemeCollection.builder()
+                .meme(meme)
+                .collection(collection)
+                .build();
+        memeCollectionRepository.save(memeCollection);
+        accountRepository.updateShareCount(account.getId(), 1);
+    }
 }
