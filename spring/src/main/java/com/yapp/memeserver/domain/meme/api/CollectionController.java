@@ -4,6 +4,7 @@ import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.auth.service.AuthUser;
 import com.yapp.memeserver.domain.meme.domain.Collection;
 import com.yapp.memeserver.domain.meme.domain.Meme;
+import com.yapp.memeserver.domain.meme.dto.MemeCollectionCheckDto;
 import com.yapp.memeserver.domain.meme.dto.TagCategoryListResDto;
 import com.yapp.memeserver.domain.meme.service.CollectionService;
 import com.yapp.memeserver.domain.meme.service.MemeCollectionService;
@@ -24,6 +25,19 @@ public class CollectionController {
     private final MemeService memeService;
     private final CollectionService collectionService;
     private final MemeCollectionService memeCollectionService;
+
+    @GetMapping("/check/memes/{memeId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public MemeCollectionCheckDto checkMemeCollection(@PathVariable Long memeId, @AuthUser Account account) {
+        Meme meme = memeService.findById(memeId);
+        Collection collection = collectionService.findCollection(account);
+        boolean existsByMemeAndCollection = memeCollectionService.isExistsByMemeAndCollection(meme, collection);
+        MemeCollectionCheckDto resDto = MemeCollectionCheckDto.builder()
+                .collectionId(collection.getId())
+                .isAdded(existsByMemeAndCollection)
+                .build();
+        return resDto;
+    }
 
     @PostMapping("/memes/{memeId}")
     @ResponseStatus(value = HttpStatus.OK)
