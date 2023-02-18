@@ -29,12 +29,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
+        String referer = request.getHeader("Referer");
 
         DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
         OAuthAttributes attributes = OAuthAttributes.ofKakao("id", principal.getAttributes());
-        String url = makeRedirectUrl(attributes.getEmail());
+        String url = makeRedirectUrl(attributes.getEmail(), referer);
         ResponseCookie responseCookie = generateRefreshTokenCookie(attributes.getEmail());
         response.setHeader("Set-Cookie", responseCookie.toString());
+        response.getWriter().write(url);
 
         if (response.isCommitted()) {
             logger.info("응답이 이미 커밋된 상태입니다. " + url + "로 리다이렉트하도록 바꿀 수 없습니다.");
@@ -45,10 +47,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     // UTF-8로 인코딩 해서 반환.
-    private String makeRedirectUrl(String email) {
+    private String makeRedirectUrl(String email, String referer) {
+        if (referer == null) {
+            referer = "https://stage.thismeme.me/";
+        }
+
         String accessToken = jwtProvider.generateAccessToken(email);
 
-        return UriComponentsBuilder.fromHttpUrl("http://localhost:3000/oauth2/redirect")
+        return UriComponentsBuilder.fromHttpUrl(referer+"oauth2/redirect")
                 .queryParam("accessToken", accessToken)
                 .build()
                 .encode()
@@ -63,6 +69,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         return ResponseCookie.from("refreshToken", refreshToken)
                 .path("/") // 해당 경로 하위의 페이지에서만 쿠키 접근 허용. 모든 경로에서 접근 허용한다.
+                .domain("thismeme.me")
                 .maxAge(TimeUnit.MILLISECONDS.toSeconds(refreshTokenValidationMs)) // 쿠키 만료 시기(초). 없으면 브라우저 닫힐 때 제거
                 .secure(true) // HTTPS로 통신할 때만 쿠키가 전송된다.
                 .sameSite("none")
