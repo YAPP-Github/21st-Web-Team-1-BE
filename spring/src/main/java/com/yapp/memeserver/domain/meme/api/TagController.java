@@ -83,7 +83,7 @@ public class TagController {
 
     @PostMapping("{tagId}/fav")
     @PreAuthorize("isAuthenticated()")
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.OK)
     public void createTagFav(@PathVariable final Long tagId, @AuthUser Account account) {
         tagFavService.create(tagId, account);
     }
