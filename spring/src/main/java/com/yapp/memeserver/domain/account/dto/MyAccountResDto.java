@@ -19,6 +19,8 @@ public class MyAccountResDto {
     private String name;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private Integer saveCount;
+    private Integer shareCount;
     private Long collectionId;
     private Long sharedCollectionId;
 
@@ -27,6 +29,8 @@ public class MyAccountResDto {
         this.name = account.getName();
         this.createdDate = account.getCreatedDate();
         this.modifiedDate = account.getModifiedDate();
+        this.saveCount = account.getSaveCount();
+        this.shareCount = account.getShareCount();
     }
     public void setCollectionInfo(Collection collection, Collection sharedCollection) {
         this.collectionId = collection.getId();

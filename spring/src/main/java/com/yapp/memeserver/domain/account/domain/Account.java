@@ -40,6 +40,10 @@ public class Account extends BaseTimeEntity {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Collection> collectionList = new ArrayList<>();
 
+    private Integer saveCount;
+
+    private Integer shareCount;
+
     // 연관관계 편의 메소드
     public void addCollection(Collection collection) {
         collectionList.add(collection);
@@ -50,6 +54,8 @@ public class Account extends BaseTimeEntity {
         this.email = email;
         this.name = name;
         this.encodedPassword = encodedPassword;
+        this.saveCount = 0;
+        this.shareCount = 0;
     }
 
     public void updateMyAccount(String email, String name, String encodedPassword) {
