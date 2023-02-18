@@ -7,13 +7,17 @@ import com.yapp.memeserver.domain.account.dto.SignUpReqDto;
 import com.yapp.memeserver.domain.account.dto.UpdateAccountReqDto;
 import com.yapp.memeserver.domain.account.service.AccountService;
 import com.yapp.memeserver.domain.auth.service.AuthUser;
+import com.yapp.memeserver.domain.meme.domain.Collection;
+import com.yapp.memeserver.domain.meme.service.CollectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final AccountService accountService;
+    private final CollectionService collectionService;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -35,9 +40,10 @@ public class AccountController {
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public MyAccountResDto getMyAccount(@AuthUser Account account) {
-        log.info(account.getEmail());
-        System.out.println("account = " + account);
-        return new MyAccountResDto(account);
+        MyAccountResDto resDto = new MyAccountResDto(account);
+        resDto.setCollectionInfo(
+                collectionService.findCollection(account), collectionService.findSharedCollection(account));
+        return resDto;
     }
 
     @PutMapping("/{accountId}")
