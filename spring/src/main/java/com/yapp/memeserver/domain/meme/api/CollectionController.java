@@ -29,7 +29,6 @@ public class CollectionController {
     @ResponseStatus(value = HttpStatus.OK)
     public void createMemeCollection(@PathVariable Long memeId, @AuthUser Account account) {
         Meme meme = memeService.findById(memeId);
-
         memeCollectionService.create(meme, account);
     }
 
@@ -37,7 +36,13 @@ public class CollectionController {
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteMemeCollection(@PathVariable Long memeId, @AuthUser Account account) {
         Meme meme = memeService.findById(memeId);
-
         memeCollectionService.delete(meme, account);
+    }
+
+    @PostMapping("/share/memes/{memeId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void createMemeShareCollection(@PathVariable Long memeId, @AuthUser Account account) {
+        Meme meme = memeService.findById(memeId);
+        memeCollectionService.createShare(meme, account);
     }
 }

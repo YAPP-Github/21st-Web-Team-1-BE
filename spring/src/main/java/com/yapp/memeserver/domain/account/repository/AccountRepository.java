@@ -17,4 +17,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Account a SET a.saveCount = a.saveCount + :val WHERE a.id = :accountId")
     void updateSaveCount(@Param("accountId") Long accountId, @Param("val") Integer val);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Account a SET a.shareCount = a.shareCount + :val WHERE a.id = :accountId")
+    void updateShareCount(@Param("accountId") Long accountId, @Param("val") Integer val);
 }
