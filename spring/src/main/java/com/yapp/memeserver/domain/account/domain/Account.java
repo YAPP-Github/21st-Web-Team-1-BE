@@ -1,6 +1,8 @@
 package com.yapp.memeserver.domain.account.domain;
 
 
+import com.yapp.memeserver.domain.meme.domain.Collection;
+import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +12,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +36,14 @@ public class Account extends BaseTimeEntity {
 
     @NotNull(message = "비밀번호는 필수로 입력되어야 합니다.")
     private String encodedPassword;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Collection> collectionList = new ArrayList<>();
+
+    // 연관관계 편의 메소드
+    public void addCollection(Collection collection) {
+        collectionList.add(collection);
+    }
 
     @Builder
     public Account(String email, String name, String encodedPassword) {
