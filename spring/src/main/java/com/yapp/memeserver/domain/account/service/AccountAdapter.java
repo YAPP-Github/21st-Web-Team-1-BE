@@ -14,7 +14,7 @@ public class AccountAdapter extends User {
 
     public AccountAdapter(Account account) {
         // Account에 Role 추가 후에 변경할 것
-        super(account.getEmail(), account.getEncodedPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        super(account.getEmail(), account.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
         this.account = account;
     }
 
