@@ -24,11 +24,11 @@ public class Collection {
     @JoinColumn(name = "account_id", updatable = false)
     private Account account;
 
-    private Boolean is_shared;
+    private Boolean isShared;
 
     @Builder
-    public Collection(Account account, Boolean is_shared) {
+    public Collection(Account account, Boolean isShared) {
         this.account = account;
-        this.is_shared = is_shared;
+        this.isShared = isShared;
     }
 }
