@@ -35,7 +35,7 @@ public class Account extends BaseTimeEntity {
     private String name;
 
     @NotNull(message = "비밀번호는 필수로 입력되어야 합니다.")
-    private String encodedPassword;
+    private String password;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Collection> collectionList = new ArrayList<>();
@@ -50,17 +50,17 @@ public class Account extends BaseTimeEntity {
     }
 
     @Builder
-    public Account(String email, String name, String encodedPassword) {
+    public Account(String email, String name, String password) {
         this.email = email;
         this.name = name;
-        this.encodedPassword = encodedPassword;
+        this.password = password;
         this.saveCount = 0;
         this.shareCount = 0;
     }
 
-    public void updateMyAccount(String email, String name, String encodedPassword) {
+    public void updateMyAccount(String email, String name, String password) {
         this.email = email;
         this.name = name;
-        this.encodedPassword = encodedPassword;
+        this.password = password;
     }
 }
