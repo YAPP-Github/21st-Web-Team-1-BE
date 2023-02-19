@@ -15,8 +15,10 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MyAccountResDto {
 
+    private Long id;
     private String email;
     private String name;
+    private String imageUrl;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private Integer saveCount;
@@ -25,8 +27,10 @@ public class MyAccountResDto {
     private Long sharedCollectionId;
 
     public MyAccountResDto(Account account) {
+        this.id = account.getId();
         this.email = account.getEmail();
         this.name = account.getName();
+        this.imageUrl = account.getImageUrl();
         this.createdDate = account.getCreatedDate();
         this.modifiedDate = account.getModifiedDate();
         this.saveCount = account.getSaveCount();
