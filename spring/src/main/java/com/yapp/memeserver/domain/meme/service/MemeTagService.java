@@ -6,6 +6,8 @@ import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.domain.meme.repository.MemeTagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,8 @@ public class MemeTagService {
     }
 
     @Transactional(readOnly = true)
-    public List<MemeTag> findByTag(Tag tag) {
-        return memeTagRepository.findByTag(tag);
+    public Page<MemeTag> findByTagPaging(Tag tag, Pageable pageable) {
+        return memeTagRepository.findByTag(tag, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -36,8 +38,9 @@ public class MemeTagService {
                 .map(MemeTag::getTag)
                 .collect(Collectors.toList());
     }
+
     @Transactional(readOnly = true)
-    public List<Meme> findMemeTagList(List<MemeTag> memeTagList) {
+    public List<Meme> findMemeTagList(Page<MemeTag> memeTagList) {
         return memeTagList.stream()
                 .map(MemeTag::getMeme)
                 .collect(Collectors.toList());

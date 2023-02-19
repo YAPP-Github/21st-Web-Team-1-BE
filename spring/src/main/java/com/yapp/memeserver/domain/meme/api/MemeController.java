@@ -8,6 +8,7 @@ import com.yapp.memeserver.domain.meme.repository.MemeRepository;
 import com.yapp.memeserver.domain.meme.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +46,9 @@ public class MemeController {
 
     @GetMapping("/tags/{tagId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public MemeListResDto getMemeTag(@PathVariable final Long tagId) {
+    public MemeListResDto getMemeTag(@PathVariable final Long tagId, Pageable pageable) {
         Tag tag = tagService.findById(tagId);
-        List<MemeTag> memeTagList = memeTagService.findByTag(tag);
+        Page<MemeTag> memeTagList = memeTagService.findByTagPaging(tag, pageable);
         List<Meme> memeList = memeTagService.findMemeTagList(memeTagList);
         MemeListResDto resDto = MemeListResDto.of(memeList);
         return resDto;
