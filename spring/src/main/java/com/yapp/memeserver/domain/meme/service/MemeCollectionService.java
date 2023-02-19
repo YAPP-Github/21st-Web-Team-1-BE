@@ -7,6 +7,8 @@ import com.yapp.memeserver.domain.meme.repository.MemeCollectionRepository;
 import com.yapp.memeserver.domain.meme.repository.TagFavRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +34,21 @@ public class MemeCollectionService {
     }
 
     @Transactional(readOnly = true)
+    public Page<MemeCollection> findByCollectionPaging(Collection collection, Pageable pageable) {
+        return memeCollectionRepository.findByCollection(collection, pageable);
+    }
+
+    @Transactional(readOnly = true)
     public MemeCollection findByMemeAndCollection(Meme meme, Collection collection) {
         return memeCollectionRepository.findByMemeAndCollection(meme, collection)
                 .orElseThrow(() -> new EntityNotFoundException("해당 밈콜렉션을 찾을 수 없습니다. id = "+ meme + collection ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Meme> findMemeCollectionList(Page<MemeCollection> memeCollectionList) {
+        return memeCollectionList.stream()
+                .map(MemeCollection::getMeme)
+                .collect(Collectors.toList());
     }
 
     public void create(Meme meme, Account account) {
