@@ -63,10 +63,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             attributes.getPassword());
                             return accountRepository.findByEmail(attributes.getEmail()).get();
                 })
-                .orElseGet(() -> attributes.toEntity(imageService.getRandomImageUrl()));
-        collectionService.createCollection(user);
-        collectionService.createSharedCollection(user);
-
+                .orElseGet(() -> {
+                    // 프로필 사진 설정, Collection 생성
+                    Account account = attributes.toEntity(imageService.getRandomImageUrl());
+                    collectionService.createCollection(account);
+                    collectionService.createSharedCollection(account);
+                    return account;
+                });
         return accountRepository.save(user);
     }
 }
