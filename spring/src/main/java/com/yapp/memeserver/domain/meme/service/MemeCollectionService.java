@@ -32,9 +32,21 @@ public class MemeCollectionService {
     }
 
     @Transactional(readOnly = true)
+    public List<MemeCollection> findByCollection(Collection collection) {
+        return memeCollectionRepository.findByCollection(collection);
+    }
+
+    @Transactional(readOnly = true)
     public MemeCollection findByMemeAndCollection(Meme meme, Collection collection) {
         return memeCollectionRepository.findByMemeAndCollection(meme, collection)
                 .orElseThrow(() -> new EntityNotFoundException("해당 밈콜렉션을 찾을 수 없습니다. id = "+ meme + collection ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Meme> findMemeCollectionList(List<MemeCollection> memeCollectionList) {
+        return memeCollectionList.stream()
+                .map(MemeCollection::getMeme)
+                .collect(Collectors.toList());
     }
 
     public void create(Meme meme, Account account) {

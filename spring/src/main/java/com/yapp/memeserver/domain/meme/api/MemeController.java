@@ -1,15 +1,11 @@
 package com.yapp.memeserver.domain.meme.api;
 
-import com.yapp.memeserver.domain.meme.domain.Meme;
-import com.yapp.memeserver.domain.meme.domain.MemeTag;
-import com.yapp.memeserver.domain.meme.domain.Tag;
+import com.yapp.memeserver.domain.meme.domain.*;
 import com.yapp.memeserver.domain.meme.dto.MemeListResDto;
 import com.yapp.memeserver.domain.meme.dto.MemeResDto;
 import com.yapp.memeserver.domain.meme.dto.TagListResDto;
 import com.yapp.memeserver.domain.meme.repository.MemeRepository;
-import com.yapp.memeserver.domain.meme.service.MemeService;
-import com.yapp.memeserver.domain.meme.service.MemeTagService;
-import com.yapp.memeserver.domain.meme.service.TagService;
+import com.yapp.memeserver.domain.meme.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +22,9 @@ public class MemeController {
 
     private final MemeService memeService;
     private final TagService tagService;
+    private final CollectionService collectionService;
     private final MemeTagService memeTagService;
+    private final MemeCollectionService memeCollectionService;
 
     @GetMapping()
     @ResponseStatus(value = HttpStatus.OK)
@@ -51,6 +49,16 @@ public class MemeController {
         Tag tag = tagService.findById(tagId);
         List<MemeTag> memeTagList = memeTagService.findByTag(tag);
         List<Meme> memeList = memeTagService.findMemeTagList(memeTagList);
+        MemeListResDto resDto = MemeListResDto.of(memeList);
+        return resDto;
+    }
+
+    @GetMapping("/collections/{collectionId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public MemeListResDto getMemeCollection(@PathVariable final Long collectionId) {
+        Collection collection = collectionService.findById(collectionId);
+        List<MemeCollection> memeCollectionList = memeCollectionService.findByCollection(collection);
+        List<Meme> memeList = memeCollectionService.findMemeCollectionList(memeCollectionList);
         MemeListResDto resDto = MemeListResDto.of(memeList);
         return resDto;
     }
