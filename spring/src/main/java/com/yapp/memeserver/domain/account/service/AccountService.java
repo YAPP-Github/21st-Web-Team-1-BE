@@ -45,8 +45,8 @@ public class AccountService {
             throw new IllegalStateException(requestDto.getEmail());
         }
 
-        String encodedPassword = encodePassword(requestDto.getPassword());
-        Account account = accountRepository.save(requestDto.toEntity(encodedPassword));
+        String password = encodePassword(requestDto.getPassword());
+        Account account = accountRepository.save(requestDto.toEntity(password));
         return account.getId();
     }
 
