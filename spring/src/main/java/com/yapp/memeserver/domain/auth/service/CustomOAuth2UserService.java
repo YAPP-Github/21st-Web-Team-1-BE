@@ -5,6 +5,7 @@ import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.account.repository.AccountRepository;
 import com.yapp.memeserver.domain.auth.dto.OAuthAttributes;
 import com.yapp.memeserver.domain.meme.service.CollectionService;
+import com.yapp.memeserver.domain.meme.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -23,6 +24,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final AccountRepository accountRepository;
+    private final ImageService imageService;
     private final CollectionService collectionService;
 
     @Override
@@ -61,7 +63,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             attributes.getPassword());
                             return accountRepository.findByEmail(attributes.getEmail()).get();
                 })
-                .orElseGet(() -> attributes.toEntity());
+                .orElseGet(() -> attributes.toEntity(imageService.getRandomImageUrl()));
         collectionService.createCollection(user);
         collectionService.createSharedCollection(user);
 

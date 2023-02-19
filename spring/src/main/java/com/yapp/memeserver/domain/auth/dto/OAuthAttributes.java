@@ -23,7 +23,7 @@ public class OAuthAttributes {
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
-        this.password = getPassword();
+        this.password = makePassword();
     }
 
     // OAuth 제공해주는 서비스를 구분해주는 코드.
@@ -53,15 +53,16 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public Account toEntity() {
+    public Account toEntity(String imageUrl) {
         return Account.builder()
                 .name(name)
                 .email(email)
                 .password(password)
+                .imageUrl(imageUrl)
                 .build();
     }
 
-    public String getPassword() {
+    public String makePassword() {
         return name + email;
     }
 }

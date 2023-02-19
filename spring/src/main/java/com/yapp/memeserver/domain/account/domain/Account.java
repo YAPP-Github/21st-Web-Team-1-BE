@@ -8,10 +8,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,10 @@ public class Account extends BaseTimeEntity {
     @NotNull(message = "비밀번호는 필수로 입력되어야 합니다.")
     private String password;
 
+    @URL
+    @Size(max = 2048)
+    private String imageUrl;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Collection> collectionList = new ArrayList<>();
 
@@ -50,12 +56,13 @@ public class Account extends BaseTimeEntity {
     }
 
     @Builder
-    public Account(String email, String name, String password) {
+    public Account(String email, String name, String password, String imageUrl) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.saveCount = 0;
         this.shareCount = 0;
+        this.imageUrl = imageUrl;
     }
 
     public void updateMyAccount(String email, String name, String password) {
