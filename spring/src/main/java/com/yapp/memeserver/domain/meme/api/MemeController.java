@@ -56,13 +56,11 @@ public class MemeController {
 
     @GetMapping("/collections/{collectionId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public MemeListResDto getMemeCollection(@PathVariable final Long collectionId) {
+    public MemeListResDto getMemeCollection(@PathVariable final Long collectionId, Pageable pageable) {
         Collection collection = collectionService.findById(collectionId);
-        List<MemeCollection> memeCollectionList = memeCollectionService.findByCollection(collection);
+        Page<MemeCollection> memeCollectionList = memeCollectionService.findByCollectionPaging(collection, pageable);
         List<Meme> memeList = memeCollectionService.findMemeCollectionList(memeCollectionList);
         MemeListResDto resDto = MemeListResDto.of(memeList);
         return resDto;
     }
-
-
 }
