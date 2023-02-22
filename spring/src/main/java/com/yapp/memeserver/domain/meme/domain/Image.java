@@ -19,23 +19,26 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
+    @Column(name = "IMAGE_ID")
     private Long id;
 
     @NotNull(message = "URL은 필수로 입력되어야 합니다.")
     @URL
     @Size(max = 2048)
+    @Column(name = "IMAGE_URL")
     private String imageUrl;
 
     @NotNull(message = "가로 길이는 필수로 입력되어야 합니다.")
+    @Column(name = "WIDTH")
     private Integer width;
 
     @NotNull(message = "세로 길이는 필수로 입력되어야 합니다.")
+    @Column(name = "HEIGHT")
     private Integer height;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "밈은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "meme_id", updatable = false)
+    @JoinColumn(name = "MEME_ID", updatable = false)
     private Meme meme;
 
 

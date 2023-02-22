@@ -16,17 +16,17 @@ public class MemeCollection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meme_collection_id")
+    @Column(name = "MEME_COLLECTION_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "밈은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "meme_id", updatable = false)
+    @JoinColumn(name = "MEME_ID", updatable = false)
     private Meme meme;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "콜렉션은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "collection_id", updatable = false)
+    @JoinColumn(name = "COLLECTION_ID", updatable = false)
     private Collection collection;
 
     @Builder

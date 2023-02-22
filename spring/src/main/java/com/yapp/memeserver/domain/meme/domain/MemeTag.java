@@ -15,17 +15,17 @@ import javax.validation.constraints.NotNull;
 public class MemeTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meme_tag_id")
+    @Column(name = "MEME_TAG_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "밈은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "meme_id", updatable = false)
+    @JoinColumn(name = "MEME_ID", updatable = false)
     private Meme meme;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "태그는 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "tag_id", updatable = false)
+    @JoinColumn(name = "TAG_ID", updatable = false)
     private Tag tag;
 
     @Builder

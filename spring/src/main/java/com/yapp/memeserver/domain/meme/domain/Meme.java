@@ -21,18 +21,21 @@ public class Meme extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meme_id")
+    @Column(name = "MEME_ID")
     private Long id;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
     @Size(min = 1, max = 255)
+    @Column(name = "NAME")
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "VIEW_COUNT")
     private Integer viewCount;
 
+    @Column(name = "SHARE_COUNT")
     private Integer shareCount;
 
     @OneToMany(mappedBy = "meme", cascade = CascadeType.ALL, orphanRemoval = true)
