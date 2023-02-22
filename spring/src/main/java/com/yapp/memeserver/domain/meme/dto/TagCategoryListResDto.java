@@ -1,6 +1,7 @@
 package com.yapp.memeserver.domain.meme.dto;
 
 import com.yapp.memeserver.domain.meme.domain.Category;
+import com.yapp.memeserver.domain.meme.domain.TagFav;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,14 +33,14 @@ public class TagCategoryListResDto {
             this.tags = tagList;
         }
 
-        public static SingleCategory of(Category category) {
-            return new SingleCategory(category, category.getTagList().stream().map(SingleTagDto::of).collect(Collectors.toList()));
+        public static SingleCategory of(Category category, List<Long> favTagIdList) {
+            return new SingleCategory(category, category.getTagList().stream().map(x->SingleTagDto.checkFav(x, favTagIdList)).collect(Collectors.toList()));
         }
     }
 
-    public static TagCategoryListResDto of(List<Category> categoryList) {
+    public static TagCategoryListResDto of(List<Category> categoryList, List<Long> favTagIdList) {
         return TagCategoryListResDto.builder()
-                .categories(categoryList.stream().map(SingleCategory::of).collect(Collectors.toList()))
+                .categories(categoryList.stream().map(x->SingleCategory.of(x, favTagIdList)).collect(Collectors.toList()))
                 .build();
     }
 }

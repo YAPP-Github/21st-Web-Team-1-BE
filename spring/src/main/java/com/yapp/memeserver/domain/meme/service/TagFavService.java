@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,19 @@ public class TagFavService {
         return tagFavList.stream()
                 .map(TagFav::getTag)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getFavTagIdList(Account account) {
+        List<Long> favTagIdList = new ArrayList<>();
+
+        if (account != null) {
+            List<TagFav> tagFavList = findByAccount(account);
+            favTagIdList = tagFavList.stream().map(
+                    tagFav -> tagFav.getTag().getId()
+            ).collect(Collectors.toList());
+        }
+        return favTagIdList;
     }
 
     public void create(Long tagId, Account account) {
