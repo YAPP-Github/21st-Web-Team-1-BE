@@ -20,17 +20,20 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "CATEGORY_ID")
     private Long id;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
     @Size(min = 1, max = 50)
+    @Column(name = "NAME")
     private String name;
 
     @URL
     @Size(max = 2048)
+    @Column(name = "ICON")
     private String icon;
 
+    @Column(name = "PRIORITY")
     private Integer priority;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -17,14 +17,15 @@ public class Collection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "collection_id")
+    @Column(name = "COLLECTION_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "회원은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "account_id", updatable = false)
+    @JoinColumn(name = "ACCOUNT_ID", updatable = false)
     private Account account;
 
+    @Column(name = "IS_SHARED")
     private Boolean isShared;
 
     @Builder

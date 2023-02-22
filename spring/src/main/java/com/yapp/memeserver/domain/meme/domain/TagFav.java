@@ -17,17 +17,17 @@ public class TagFav {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_fav_id")
+    @Column(name = "TAG_FAV_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "태그는 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "tag_id", updatable = false)
+    @JoinColumn(name = "TAG_ID", updatable = false)
     private Tag tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "계정은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "account_id", updatable = false)
+    @JoinColumn(name = "ACCOUNT_ID", updatable = false)
     private Account account;
 
     @Builder
