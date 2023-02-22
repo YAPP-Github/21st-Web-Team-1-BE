@@ -2,11 +2,18 @@ package com.yapp.memeserver.domain.auth.service;
 
 
 import com.yapp.memeserver.domain.account.domain.Account;
+import com.yapp.memeserver.domain.account.domain.Adjective;
+import com.yapp.memeserver.domain.account.domain.Noun;
 import com.yapp.memeserver.domain.account.repository.AccountRepository;
+import com.yapp.memeserver.domain.account.repository.AdjectiveRepository;
+import com.yapp.memeserver.domain.account.repository.NounRepository;
+import com.yapp.memeserver.domain.account.service.AccountService;
 import com.yapp.memeserver.domain.auth.dto.OAuthAttributes;
 import com.yapp.memeserver.domain.meme.service.CollectionService;
 import com.yapp.memeserver.domain.meme.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -24,6 +31,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final AccountRepository accountRepository;
+    private final AdjectiveRepository adjectiveRepository;
+    private final NounRepository nounRepository;
     private final ImageService imageService;
     private final CollectionService collectionService;
 
@@ -65,11 +74,36 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 })
                 .orElseGet(() -> {
                     // 프로필 사진 설정, Collection 생성
-                    Account account = attributes.toEntity(imageService.getRandomImageUrl());
+                    Account account = attributes.toEntity(getRandomName(), imageService.getRandomImageUrl());
                     collectionService.createCollection(account);
                     collectionService.createSharedCollection(account);
                     return account;
                 });
         return accountRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public String getRandomName() {
+        long aqty = adjectiveRepository.count();
+        long nqty = nounRepository.count();
+        // 가져온 개수 중 랜덤한 하나의 인덱스를 뽑는다.
+        int aidx = (int)(Math.random() * aqty);
+        int nidx = (int)(Math.random() * nqty);
+
+        // 페이징하여 하나만 추출해낸다.
+        Page<Adjective> adjectivePage = adjectiveRepository
+                .findAll(PageRequest.of(aidx, 1));
+        Page<Noun> nounPage = nounRepository
+                .findAll(PageRequest.of(nidx, 1));
+
+        if (!adjectivePage.hasContent()) {
+            new RuntimeException("형용사가 없습니다.");
+        }
+        if (!nounPage.hasContent()) {
+            new RuntimeException("명사가 없습니다.");
+        }
+        Adjective adjective = adjectivePage.getContent().get(0);
+        Noun noun = nounPage.getContent().get(0);
+        return adjective.getWord() + ' ' + noun.getWord();
     }
 }
