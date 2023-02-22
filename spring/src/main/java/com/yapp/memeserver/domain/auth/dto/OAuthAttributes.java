@@ -53,7 +53,7 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public Account toEntity(String imageUrl) {
+    public Account toEntity(String name, String imageUrl) {
         return Account.builder()
                 .name(name)
                 .email(email)
@@ -63,6 +63,6 @@ public class OAuthAttributes {
     }
 
     public String makePassword() {
-        return name + email;
+        return name + ' ' +email;
     }
 }
