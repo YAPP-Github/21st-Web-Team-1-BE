@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="MEME_COLLECTION")
 public class MemeCollection {
 
     @Id

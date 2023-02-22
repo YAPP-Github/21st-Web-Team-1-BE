@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="TAG")
 public class Tag {
 
     @Id

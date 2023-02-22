@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="IMAGE")
 public class Image {
 
     @Id
