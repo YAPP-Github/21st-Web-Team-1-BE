@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="TAG_FAV")
 public class TagFav {
 
     @Id

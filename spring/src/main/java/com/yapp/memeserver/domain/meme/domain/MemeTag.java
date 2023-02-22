@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="MEME_TAG")
 public class MemeTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
