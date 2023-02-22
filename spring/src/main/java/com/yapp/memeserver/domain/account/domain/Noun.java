@@ -12,15 +12,17 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="NOUN")
 public class Noun {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "noun_id", updatable = false)
+    @Column(name = "NOUN_ID", updatable = false)
     private Long id;
 
     @NotNull(message = "word는 필수로 입력되어야 합니다.")
     @Size(min = 1, max = 24)
+    @Column(name = "WORD")
     private String word;
 
     @Builder

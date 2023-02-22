@@ -20,34 +20,42 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="ACCOUNT")
 public class Account extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // pk 컬럼명은 따로 지정하는 것이 더 명확하다.
-    @Column(name = "account_id", updatable = false)
+    @Column(name = "ACCOUNT_ID", updatable = false)
     private Long id;
 
     @NotNull(message = "이메일은 필수로 입력되어야 합니다.")
     @Email(message = "유효하지 않은 이메일 형식입니다.",
             regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
+    @Column(name = "EMAIL")
     private String email;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
+    @Column(name = "NAME")
+    @Size(min = 1, max = 50)
     private String name;
 
     @NotNull(message = "비밀번호는 필수로 입력되어야 합니다.")
+    @Column(name = "PASSWORD")
     private String password;
 
     @URL
     @Size(max = 2048)
+    @Column(name = "IMAGE_URL")
     private String imageUrl;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Collection> collectionList = new ArrayList<>();
 
+    @Column(name = "SAVE_COUNT")
     private Integer saveCount;
 
+    @Column(name = "SHARE_COUNT")
     private Integer shareCount;
 
     // 연관관계 편의 메소드
