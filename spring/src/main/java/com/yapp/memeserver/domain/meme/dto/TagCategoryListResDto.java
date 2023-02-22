@@ -20,12 +20,14 @@ public class TagCategoryListResDto {
     public static class SingleCategory {
         private Long categoryId;
         private String name;
+        private String icon;
         private Integer priority;
         private List<SingleTagDto> tags;
 
         public SingleCategory(Category category, List<SingleTagDto> tagList) {
             this.categoryId = category.getId();
             this.name = category.getName();
+            this.icon = category.getIcon();
             this.priority = category.getPriority();
             this.tags = tagList;
         }

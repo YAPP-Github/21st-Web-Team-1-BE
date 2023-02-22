@@ -38,12 +38,12 @@ INSERT INTO image(image_url, width, height, meme_id) VALUES('https://yappmemebuc
 INSERT INTO image(image_url, width, height, meme_id) VALUES('https://yappmemebucket.s3.ap-northeast-2.amazonaws.com/memes/images/19.png', 600, 659, 17);
 INSERT INTO image(image_url, width, height, meme_id) VALUES('https://yappmemebucket.s3.ap-northeast-2.amazonaws.com/memes/images/20.png', 600, 476, 18);
 
-INSERT INTO category(name, priority) VALUES('직업', 100);
-INSERT INTO category(name, priority) VALUES('캐릭터', 200);
-INSERT INTO category(name, priority) VALUES('예능', 300);
-INSERT INTO category(name, priority) VALUES('인물', 300);
-INSERT INTO category(name, priority) VALUES('감정', 400);
-INSERT INTO category(name, priority) VALUES('기타', 500);
+INSERT INTO category(name, priority, icon) VALUES('직업', 100, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F361.svg');
+INSERT INTO category(name, priority, icon) VALUES('캐릭터', 200, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F362.svg');
+INSERT INTO category(name, priority, icon) VALUES('예능', 300, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F363.svg');
+INSERT INTO category(name, priority, icon) VALUES('인물', 300, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F364.svg');
+INSERT INTO category(name, priority, icon) VALUES('감정', 400, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F365.svg');
+INSERT INTO category(name, priority, icon) VALUES('기타', 500, 'https://github.com/toss/tossface/blob/main/dist/svg/u1F366.svg');
 
 INSERT INTO tag(name, view_count, category_id) VALUES('개발자', 52, 1);
 INSERT INTO tag(name, view_count, category_id) VALUES('에브리타임', 49, 6);

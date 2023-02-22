@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,10 @@ public class Category {
     @Size(min = 1, max = 50)
     private String name;
 
+    @URL
+    @Size(max = 2048)
+    private String icon;
+
     private Integer priority;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,12 +43,15 @@ public class Category {
     }
 
     @Builder
-    public Category(String name) {
+    public Category(String name, String icon) {
         this.name = name;
+        this.icon = icon;
         this.priority = 100;
     }
-    public void updateCategory(String name) {
+
+    public void updateCategory(String name, String icon) {
         this.name = name;
+        this.icon = icon;
     }
 
     public void updatePriority(Integer priority) {
