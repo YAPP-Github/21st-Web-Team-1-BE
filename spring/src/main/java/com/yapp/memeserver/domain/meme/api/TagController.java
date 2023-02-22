@@ -2,10 +2,7 @@ package com.yapp.memeserver.domain.meme.api;
 
 import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.auth.service.AuthUser;
-import com.yapp.memeserver.domain.meme.domain.Category;
-import com.yapp.memeserver.domain.meme.domain.Meme;
-import com.yapp.memeserver.domain.meme.domain.MemeTag;
-import com.yapp.memeserver.domain.meme.domain.Tag;
+import com.yapp.memeserver.domain.meme.domain.*;
 import com.yapp.memeserver.domain.meme.dto.*;
 import com.yapp.memeserver.domain.meme.service.*;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @RestController
@@ -61,13 +61,11 @@ public class TagController {
 
     @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
-    public TagCategoryListResDto getTagCetegory(@AuthUser Account account) {
+    public TagCategoryListResDto getTagCategory(@AuthUser Account account) {
         List<Category> categoryList = categoryService.findAllOrderByPriority();
-        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList);
+        List<Long> favTagIdList = tagFavService.getFavTagIdList(account);
+        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList, favTagIdList);
 
-        resDto.getCategories().stream()
-                .flatMap(c -> c.getTags().stream())
-                .forEach(s -> s.setFav(tagFavService.isExistsByAccountAndTag(account, tagService.findById(s.getTagId()))));
         return resDto;
     }
 
