@@ -67,7 +67,7 @@ class MemeRepositoryTest extends RepositoryTest {
     void updateViewCountTest() {
         Long memeId = 1L;
         Meme meme = memeRepository.findById(memeId).get();
-        memeRepository.updateViewCount(memeId); // @Query 로 작성하여 영속성 컨텍스트에 반영 안됨
+        memeRepository.increaseViewCount(memeId); // @Query 로 작성하여 영속성 컨텍스트에 반영 안됨
         assertThat(meme.getViewCount()).isEqualTo(0); // 1차 캐시에 남아 있는 객체를 조회하므로 반영 안됨
         assertThat(memeRepository.findById(memeId).get().getViewCount()).isEqualTo(1); // 새로 조회해서 반영 됨
     }
@@ -81,7 +81,7 @@ class MemeRepositoryTest extends RepositoryTest {
 
     private void changeViewCount(Meme meme, int newViewCount) {
         for (int i = 0; i < newViewCount; i++) {
-            memeRepository.updateViewCount(meme.getId());
+            memeRepository.increaseViewCount(meme.getId());
         }
     }
 

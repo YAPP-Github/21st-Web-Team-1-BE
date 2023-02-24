@@ -16,6 +16,9 @@ public interface MemeRepository extends JpaRepository<Meme, Long> {
     // 조회수 증가 코드. ModifiedDate를 변경시키지 않기 위함.
     @Modifying(clearAutomatically = true) // 연산 이후 영속성 컨텍스트를 clear 하도록 설정
     @Query("UPDATE Meme m SET m.viewCount = m.viewCount + 1 WHERE m.id = :memeId")
-    void updateViewCount(@Param("memeId") Long memeId);
+    void increaseViewCount(@Param("memeId") Long memeId);
 
+    @Modifying(clearAutomatically = true) // 연산 이후 영속성 컨텍스트를 clear 하도록 설정
+    @Query("UPDATE Meme m SET m.shareCount = m.shareCount + 1 WHERE m.id = :memeId")
+    void increaseShareCount(@Param("memeId") Long memeId);
 }
