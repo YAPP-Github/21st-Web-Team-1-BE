@@ -54,7 +54,7 @@ public class AccountService {
     public void update(Long accountId, UpdateAccountReqDto requestDto) {
         Account account = findById(accountId);
         String encodePassword = encodePassword(requestDto.getPassword());
-        account.updateMyAccount(requestDto.getEmail(), requestDto.getName(), encodePassword);
+        account.updateMyAccount(requestDto.getEmail(), encodePassword);
     }
 
     public void delete(Long accountId) {

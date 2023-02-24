@@ -73,9 +73,8 @@ public class Account extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
-    public void updateMyAccount(String email, String name, String password) {
+    public void updateMyAccount(String email, String password) {
         this.email = email;
-        this.name = name;
         this.password = password;
     }
 }
