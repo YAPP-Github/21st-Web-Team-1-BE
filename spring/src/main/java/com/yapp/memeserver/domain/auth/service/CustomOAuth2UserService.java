@@ -68,8 +68,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 비효율적인 코드인 듯. 비밀번호 안전성도 부족 (password encoder를 불러오면 순환 참조 오류)
         Account user =  accountRepository.findByEmail(attributes.getEmail())
                 .map(entity -> {
-                    entity.updateMyAccount(attributes.getEmail(), attributes.getName(),
-                            attributes.getPassword());
+                    entity.updateMyAccount(attributes.getEmail(), attributes.getPassword());
                             return accountRepository.findByEmail(attributes.getEmail()).get();
                 })
                 .orElseGet(() -> {
