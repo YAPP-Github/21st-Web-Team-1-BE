@@ -1,8 +1,6 @@
 package com.yapp.memeserver.domain.meme.service;
 
 import com.yapp.memeserver.domain.meme.domain.Meme;
-import com.yapp.memeserver.domain.meme.domain.Tag;
-import com.yapp.memeserver.domain.meme.dto.MemeListResDto;
 import com.yapp.memeserver.domain.meme.repository.MemeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +38,6 @@ public class MemeService {
     }
 
     public void read(Long memeId) {
-        memeRepository.updateViewCount(memeId);
+        memeRepository.increaseViewCount(memeId);
     }
 }
