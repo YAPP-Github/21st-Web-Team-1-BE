@@ -4,7 +4,7 @@ import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.account.repository.AccountRepository;
 import com.yapp.memeserver.domain.meme.domain.*;
 import com.yapp.memeserver.domain.meme.repository.MemeCollectionRepository;
-import com.yapp.memeserver.domain.meme.repository.TagFavRepository;
+import com.yapp.memeserver.domain.meme.repository.MemeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,6 +24,7 @@ public class MemeCollectionService {
 
     private final AccountRepository accountRepository;
     private final MemeCollectionRepository memeCollectionRepository;
+    private final MemeRepository memeRepository;
     private final CollectionService collectionService;
     private final MemeService memeService;
 
@@ -86,6 +86,7 @@ public class MemeCollectionService {
                 .meme(meme)
                 .collection(collection)
                 .build();
+        memeRepository.increaseShareCount(meme.getId());
         memeCollectionRepository.save(memeCollection);
         accountRepository.updateShareCount(account.getId(), 1);
     }
