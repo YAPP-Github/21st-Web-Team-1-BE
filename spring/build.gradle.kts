@@ -57,6 +57,10 @@ dependencies {
 
 	// Json 변환 라이브러리
 	implementation("org.json:json:20220924")
+
+	// HikariCP
+	implementation("com.zaxxer:HikariCP:4.0.3")
+
 }
 
 tasks.withType<Test> {
