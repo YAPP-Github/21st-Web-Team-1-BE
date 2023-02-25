@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +34,22 @@ public class MemeTagService {
     }
 
     @Transactional(readOnly = true)
+    public Page<MemeTag> findByRelTagPaging(Long memeId, List<Long> tagIdList, Pageable pageable) {
+        return memeTagRepository.findByRelTag(memeId, tagIdList, pageable);
+    }
+
+
+    @Transactional(readOnly = true)
     public List<Tag> findTagMemeList(List<MemeTag> memeTagList) {
         return memeTagList.stream()
                 .map(MemeTag::getTag)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> findTagIdList(List<MemeTag> memeTagList) {
+        return memeTagList.stream()
+                .map(m -> m.getTag().getId())
                 .collect(Collectors.toList());
     }
 
