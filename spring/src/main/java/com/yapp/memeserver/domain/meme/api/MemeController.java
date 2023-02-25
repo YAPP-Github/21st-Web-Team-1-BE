@@ -63,4 +63,17 @@ public class MemeController {
         MemeListResDto resDto = MemeListResDto.of(memeList);
         return resDto;
     }
+
+    @GetMapping("/{memeId}/rel")
+    @ResponseStatus(value = HttpStatus.OK)
+    public MemeListResDto readRelMemes(@PathVariable final Long memeId, Pageable pageable) {
+        memeService.read(memeId);
+        Meme meme = memeService.findById(memeId);
+        List<MemeTag> memeTagList = memeTagService.findByMeme(meme);
+        List<Long> tagIdList = memeTagService.findTagIdList(memeTagList);
+        Page<MemeTag> memeTagPage = memeTagService.findByRelTagPaging(memeId, tagIdList, pageable);
+        List<Meme> memeList = memeTagService.findMemeTagList(memeTagPage);
+        MemeListResDto resDto = MemeListResDto.of(memeList);
+        return resDto;
+    }
 }
