@@ -55,7 +55,7 @@ public class TagService {
     }
 
     public void read(Long tagId) {
-        tagRepository.updateViewCount(tagId);
+        tagRepository.increaseViewCount(tagId);
     }
 
 
