@@ -22,5 +22,5 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     // 조회수 증가 코드. ModifiedDate를 변경시키지 않기 위함.
     @Modifying(clearAutomatically = true) // 연산 이후 영속성 컨텍스트를 clear 하도록 설정
     @Query("UPDATE Tag t SET t.viewCount = t.viewCount + 1 WHERE t.id = :tagId")
-    void updateViewCount(@Param("tagId") Long tagId);
+    void increaseViewCount(@Param("tagId") Long tagId);
 }
