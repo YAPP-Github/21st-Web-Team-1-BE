@@ -32,7 +32,7 @@ public class CategoryTest {
         assertThat(category.getName()).isEqualTo(newName);
         assertThat(category.getIcon()).isEqualTo(newIcon);
     }
-    
+
     @Test
     void 카테고리_우선순위_변경_테스트() {
         String name = "카테고리명";
