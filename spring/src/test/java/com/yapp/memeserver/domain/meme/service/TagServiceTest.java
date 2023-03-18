@@ -1,5 +1,6 @@
 package com.yapp.memeserver.domain.meme.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
@@ -19,6 +20,8 @@ import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.domain.meme.repository.TagRepository;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.persistence.EntityNotFoundException;
+
 @ExtendWith(MockitoExtension.class)
 public class TagServiceTest {
 
@@ -35,25 +38,34 @@ public class TagServiceTest {
     private TagService tagService;
 
     @Test
-    @DisplayName("Find tag by ID")
-    public void testFindById() {
-        // given
-        Category category = createCategory("카테고리1");
-        Tag tag = createTag("태그1", category);
+    @DisplayName("Test findById method")
+    void testFindById() {
+        // Given
+        Category category = createCategory("Category 1");
+        Tag tag = createTag("Tag 1", category);
         Long tagId = 1L;
         ReflectionTestUtils.setField(tag, "id", tagId);
 
-        // mock
+        // Mock
         given(tagRepository.findById(tagId)).willReturn(Optional.ofNullable(tag));
 
-        // when
+        // When
         Tag findTag = tagService.findById(tagId);
 
-        // then
-        assertEquals(tag.getId(), findTag.getId());
-        assertEquals(tag.getName(), findTag.getName());
-        assertEquals(tag.getCategory(), findTag.getCategory());
-        assertEquals(tag.getViewCount(), findTag.getViewCount());
+        // Then
+        assertThat(findTag).isNotNull();
+        assertThat(findTag.getId()).isEqualTo(tag.getId());
+        assertThat(findTag.getName()).isEqualTo(tag.getName());
+        assertThat(findTag.getCategory()).isEqualTo(tag.getCategory());
+        assertThat(findTag.getViewCount()).isEqualTo(tag.getViewCount());
+
+        // Test with non-existing tag ID
+        Long nonExistingTagId = 2L;
+        given(tagRepository.findById(nonExistingTagId)).willReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            tagService.findById(nonExistingTagId);
+        });
     }
 
     private Category createCategory(String name) {
