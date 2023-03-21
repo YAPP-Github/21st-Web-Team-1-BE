@@ -3,7 +3,10 @@ package com.yapp.memeserver.domain.meme.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -19,6 +22,7 @@ import com.yapp.memeserver.domain.meme.domain.Category;
 import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.domain.meme.repository.TagRepository;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -38,7 +42,6 @@ public class TagServiceTest {
     private TagService tagService;
 
     @Test
-    @DisplayName("Test findById method")
     void testFindById() {
         // Given
         Category category = createCategory("Category 1");
@@ -58,6 +61,7 @@ public class TagServiceTest {
         assertThat(findTag.getName()).isEqualTo(tag.getName());
         assertThat(findTag.getCategory()).isEqualTo(tag.getCategory());
         assertThat(findTag.getViewCount()).isEqualTo(tag.getViewCount());
+        verify(tagRepository).findById(tagId);
 
         // Test with non-existing tag ID
         Long nonExistingTagId = 2L;
@@ -66,6 +70,32 @@ public class TagServiceTest {
         assertThrows(EntityNotFoundException.class, () -> {
             tagService.findById(nonExistingTagId);
         });
+    }
+
+
+    @Test
+    void testFindByCategory() {
+        // Given
+        Category category = createCategory("Category 1");
+        Tag tag1 = createTag("Tag 1", category);
+        Tag tag2 = createTag("Tag 2", category);
+        Long categoryId = 1L;
+        ReflectionTestUtils.setField(category, "id", categoryId);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(tag1);
+        tags.add(tag2);
+
+        // Mock
+        given(categoryService.findById(categoryId)).willReturn(category);
+        given(tagRepository.findByCategory(category)).willReturn(tags);
+
+        // When
+        List<Tag> result = tagService.findByCategory(categoryId);
+
+        // Then
+        assertThat(result).isEqualTo(tags);
+        verify(categoryService).findById(categoryId);
+        verify(tagRepository).findByCategory(category);
     }
 
     private Category createCategory(String name) {
