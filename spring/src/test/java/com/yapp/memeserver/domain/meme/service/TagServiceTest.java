@@ -127,13 +127,15 @@ public class TagServiceTest {
     }
 
     @Test
-    @DisplayName("Given a valid tag id, when read() is called, then the tag should be returned")
     void testRead() {
         // Given
         Long tagId = 1L;
         Category category = createCategory("Category 1");
         Tag tag = createTag("Tag 1", category);
         ReflectionTestUtils.setField(tag, "id", tagId);
+
+        // Mock
+        given(tagRepository.existsById(tagId)).willReturn(true);
 
         // When
         tagService.read(tagId);
@@ -143,16 +145,16 @@ public class TagServiceTest {
     }
 
     @Test
-    @DisplayName("Given a non-existing tag id, when read() is called, then an EntityNotFoundException should be thrown")
     void testReadNonExisting() {
         // Given
         Long tagId = 1L;
         Category category = createCategory("Category 1");
         Tag tag = createTag("Tag 1", category);
         ReflectionTestUtils.setField(tag, "id", tagId);
-        // Given
         Long nonExistingTagId = 2L;
-        given(tagRepository.findById(nonExistingTagId)).willReturn(Optional.empty());
+
+        // Mock
+        given(tagRepository.existsById(nonExistingTagId)).willReturn(false);
 
         // When, Then
         assertThrows(EntityNotFoundException.class, () -> {

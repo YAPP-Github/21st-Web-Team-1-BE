@@ -55,9 +55,9 @@ public class TagService {
     }
 
     public void read(Long tagId) {
+        if (!tagRepository.existsById(tagId)) {
+            throw new EntityNotFoundException("해당 id를 가진 Tag 을 찾을 수 없습니다. id = "+ tagId );
+        }
         tagRepository.increaseViewCount(tagId);
     }
-
-
-
 }
