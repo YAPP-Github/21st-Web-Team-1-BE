@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,6 +124,50 @@ public class TagServiceTest {
 
         // Then
         assertThat(result).isEqualTo(tagList);
+    }
+
+    @Test
+    void findByNameContains_whenWordIsNotEmpty_shouldReturnMatchingTags() {
+        // given
+        Category category = createCategory("Category 1");
+        String word = "funny";
+        Tag tag1 = createTag("funny Tag 1", category);
+        Tag tag2 = createTag("funny Tag 2", category);
+        Tag tag3 = createTag("Tag 3", category);
+        List<Tag> tagList = Arrays.asList(tag1, tag2);
+
+        // when
+        given(tagRepository.findByNameContainsOrderByViewCountDesc(word)).willReturn(tagList);
+        List<Tag> result = new TagService(tagRepository, null).findByNameContains(word);
+
+        // then
+        assertThat(result).isEqualTo(tagList);
+    }
+
+    @Test
+    void findByNameContains_whenWordIsEmpty_shouldReturnEmptyList() {
+        // given
+        String word = "";
+
+        // when
+        List<Tag> result = tagService.findByNameContains(word);
+
+        // then
+        assertThat(result).isEmpty();
+        verify(tagRepository, never()).findByNameContainsOrderByViewCountDesc(word);
+    }
+
+    @Test
+    void findByNameContains_whenWordIsNull_shouldReturnEmptyList() {
+        // given
+        String word = null;
+
+        // when
+        List<Tag> result = tagService.findByNameContains(word);
+
+        // then
+        assertThat(result).isEmpty();
+        verify(tagRepository, never()).findByNameContainsOrderByViewCountDesc(word);
     }
 
     @Test
