@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -50,14 +51,19 @@ public class TagService {
 
     @Transactional(readOnly = true)
     public List<Tag> findByNameContains(String word) {
+        if (word == null || word.length() < 2) {
+            // NPE를 방지하기 위해 null 보다 빈 리스트를 반환하는 것이 좋다.
+            // ArrayList<Tag>(); 보다 아래의 방식이 shared, immutable 객체를 반환하므로 메모리 차원에서 효율적이다.
+            return Collections.emptyList();
+        }
         List<Tag> tagList = tagRepository.findByNameContainsOrderByViewCountDesc(word);
         return tagList;
     }
 
     public void read(Long tagId) {
+        if (!tagRepository.existsById(tagId)) {
+            throw new EntityNotFoundException("해당 id를 가진 Tag 을 찾을 수 없습니다. id = "+ tagId );
+        }
         tagRepository.increaseViewCount(tagId);
     }
-
-
-
 }

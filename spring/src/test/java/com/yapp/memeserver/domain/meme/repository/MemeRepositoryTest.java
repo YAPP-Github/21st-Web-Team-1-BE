@@ -72,6 +72,16 @@ class MemeRepositoryTest extends RepositoryTest {
         assertThat(memeRepository.findById(memeId).get().getViewCount()).isEqualTo(1); // 새로 조회해서 반영 됨
     }
 
+    @DirtiesContext(methodMode = BEFORE_METHOD) // 특정 케이스를 시작하기 전에 context 재생성
+    @Test
+    void updateShareCountTest() {
+        Long memeId = 1L;
+        Meme meme = memeRepository.findById(memeId).get();
+        memeRepository.increaseShareCount(memeId);
+        assertThat(meme.getViewCount()).isEqualTo(0);
+        assertThat(memeRepository.findById(memeId).get().getShareCount()).isEqualTo(1); // 새로 조회해서 반영 됨
+    }
+
     private Meme createMeme(String name) {
         Meme meme = Meme.builder()
                 .name(name)

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFORE_METHOD;
 
@@ -63,6 +65,41 @@ public class TagRepositoryTest extends RepositoryTest {
         // 시작 페이지(0) 여부
         assertThat(result.isFirst()).isEqualTo(true);
 
+    }
+
+    @DirtiesContext(methodMode = BEFORE_METHOD)
+    @Test
+    public void testFindByNameContainsOrderByViewCountDesc() {
+        Tag tag4 = createTag("그4");
+        Tag tag5 = createTag("태그5");
+        Tag tag6 = createTag("태6");
+        Tag tag7 = createTag("태태태그그7");
+        int newViewCount3 = 14;
+        int newViewCount5 = 12;
+        int newViewCount2 = 9;
+        int newViewCount1 = 4;
+        int newViewCount7 = 3;
+
+        int newViewCount4 = 10;
+        int newViewCount6 = 8;
+
+        changeViewCount(tag1, newViewCount1);
+        changeViewCount(tag2, newViewCount2);
+        changeViewCount(tag3, newViewCount3);
+        changeViewCount(tag4, newViewCount4);
+        changeViewCount(tag5, newViewCount5);
+        changeViewCount(tag6, newViewCount6);
+        changeViewCount(tag7, newViewCount7);
+
+        List<Tag> tags = tagRepository.findByNameContainsOrderByViewCountDesc("태그");
+
+        // Verify that the tags are returned in the correct order
+        assertThat(tags.size()).isEqualTo(5);
+        assertThat(tags.get(0).getId()).isEqualTo(tag3.getId());
+        assertThat(tags.get(1).getId()).isEqualTo(tag5.getId());
+        assertThat(tags.get(2).getId()).isEqualTo(tag2.getId());
+        assertThat(tags.get(3).getId()).isEqualTo(tag1.getId());
+        assertThat(tags.get(4).getId()).isEqualTo(tag7.getId());
     }
 
     @DirtiesContext(methodMode = BEFORE_METHOD) // 특정 케이스를 시작하기 전에 context 재생성
