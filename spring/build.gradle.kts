@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "2.7.6"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 }
@@ -63,6 +64,34 @@ dependencies {
 
 }
 
-tasks.withType<Test> {
+jacoco {
+	// JaCoCo 버전
+	toolVersion = "0.8.5"
+
+//  테스트결과 리포트를 저장할 경로 변경
+//  default는 "$/jacoco"
+//  reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+tasks.test {
 	useJUnitPlatform()
+//	extensions.configure(JacocoTaskExtension::class) {
+//		destinationFile = file("$buildDir/jacoco/jacoco.exec")
+//	}
+	finalizedBy("jacocoTestReport")
+};
+
+// 바이너리 커버리지 결과를 사람이 읽기 좋은 형태의 리포트로 저장합니다.
+tasks.jacocoTestReport {
+	reports {
+		// 원하는 리포트를 켜고 끌 수 있습니다.
+		html.required.set(true)
+		xml.required.set(false)
+		csv.required.set(false)
+
+//  각 리포트 타입 마다 리포트 저장 경로를 설정할 수 있습니다.
+//  html.destination = file("$buildDir/jacocoHtml")
+//  xml.destination = file("$buildDir/jacoco.xml")
+	}
+	finalizedBy("jacocoTestCoverageVerification")
 }
