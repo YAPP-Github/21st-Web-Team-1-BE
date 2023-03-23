@@ -79,7 +79,28 @@ tasks.test {
 //		destinationFile = file("$buildDir/jacoco/jacoco.exec")
 //	}
 	finalizedBy("jacocoTestReport")
-};
+}
+
+// 커버리지 기준을 만족하는지 확인해 주는 task
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element = "CLASS"
+
+			limit {
+				counter = "BRANCH"
+				value = "COVEREDRATIO"
+				minimum = "0.0".toBigDecimal()
+			}
+
+			excludes = listOf(
+					//      "*.test.*",
+					"*.Kotlin*"
+			)
+
+		}
+	}
+}
 
 // 바이너리 커버리지 결과를 사람이 읽기 좋은 형태의 리포트로 저장합니다.
 tasks.jacocoTestReport {
