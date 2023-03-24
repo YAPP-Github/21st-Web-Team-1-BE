@@ -1,7 +1,6 @@
 package com.yapp.memeserver.domain.meme.dto;
 
 import com.yapp.memeserver.domain.meme.domain.Category;
-import com.yapp.memeserver.domain.meme.domain.TagFav;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
