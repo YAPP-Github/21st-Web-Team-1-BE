@@ -38,6 +38,7 @@ public class OAuthAttributes {
     }
 
     // OAuth2AuthenticationSuccessHandler 에서 가져오기 위해 public 으로 설정
+    @SuppressWarnings (value="unchecked")
     public static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         // kakao는 kakao_account에 유저정보가 있다. (email)
         Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
