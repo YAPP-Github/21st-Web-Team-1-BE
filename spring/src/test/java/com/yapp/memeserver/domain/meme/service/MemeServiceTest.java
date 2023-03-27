@@ -12,9 +12,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,6 +75,41 @@ public class MemeServiceTest {
             memeService.findById(nonExistingMemeId);
         });
         verify(memeRepository, times(1)).findById(nonExistingMemeId);
+    }
+
+    @Test
+    void findAllPaging_shouldReturnMemeList_whenCalledWithPageable() {
+        // Given
+        Pageable pageable = PageRequest.of(0, 10);
+        List<Meme> memes = Arrays.asList(createMeme("Meme 1"), createMeme("Meme 2"));
+        Page<Meme> memePage = new PageImpl<>(memes, pageable, memes.size());
+
+        // Mock
+        given(memeRepository.findAll(pageable)).willReturn(memePage);
+
+        // When
+        List<Meme> result = memeService.findAllPaging(pageable);
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(memes.size());
+        assertThat(result.get(0).getName()).isEqualTo(memes.get(0).getName());
+        assertThat(result.get(1).getName()).isEqualTo(memes.get(1).getName());
+        verify(memeRepository, times(1)).findAll(pageable);
+    }
+
+    @Test
+    void read_shouldIncreaseViewCount_whenCalledWithMemeId() {
+        // Given
+        Long memeId = 1L;
+        Meme meme = createMeme("Meme 1");
+        ReflectionTestUtils.setField(meme, "id", memeId);
+
+        // When
+        memeService.read(memeId);
+
+        // Then
+        verify(memeRepository, times(1)).increaseViewCount(memeId);
     }
 
     private Meme createMeme(String name) {
