@@ -84,7 +84,6 @@ class ImageServiceTest {
 
             return new PageImpl<>(list, pageable, expectedImageList.size());
         });
-        given(imageRepository.save(any(Image.class))).willReturn(image1);
 
         // When
         String actualImageUrl = imageService.getRandomImageUrl();
@@ -94,13 +93,12 @@ class ImageServiceTest {
     }
 
     private Image createImage(String imageUrl, Integer width, Integer height, Meme meme) {
-        Image image = Image.builder()
+        return Image.builder()
                 .imageUrl(imageUrl)
                 .width(width)
                 .height(height)
                 .meme(meme)
                 .build();
-        return imageRepository.save(image);
     }
     private Meme createMeme(String name) {
         return Meme.builder()
