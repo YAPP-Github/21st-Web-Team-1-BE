@@ -34,7 +34,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	// p6spy 의존성 추가
-	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
+	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
 }
 
 tasks.withType<Test> {

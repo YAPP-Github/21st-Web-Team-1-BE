@@ -22,8 +22,8 @@ import static java.util.Arrays.stream;
 @Component
 public class P6SpyFormatter extends JdbcEventListener implements MessageFormattingStrategy {
     private static final String NEW_LINE = System.lineSeparator();
-    private static final String P6SPY_FORMATTER = "P6spyPrettySqlFormatter";
-    private static final String PACKAGE = "io.p6spy";
+    private static final String P6SPY_FORMATTER = "P6SpyFormatter";
+    private static final String PACKAGE = "com.yapp.memeserver";
     private static final String CREATE = "create";
     private static final String ALTER = "alter";
     private static final String COMMENT = "comment";
