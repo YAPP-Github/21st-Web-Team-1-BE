@@ -110,6 +110,14 @@ tasks.jacocoTestReport {
 		xml.required.set(false)
 		csv.required.set(false)
 
+	classDirectories.setFrom(
+		files(classDirectories.files.map {
+			fileTree(it) {
+				exclude("**/dto/**",
+				)
+			}
+		}))
+
 //  각 리포트 타입 마다 리포트 저장 경로를 설정할 수 있습니다.
 //  html.destination = file("$buildDir/jacocoHtml")
 //  xml.destination = file("$buildDir/jacoco.xml")
