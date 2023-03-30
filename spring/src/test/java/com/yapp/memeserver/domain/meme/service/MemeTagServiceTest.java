@@ -103,6 +103,39 @@ public class MemeTagServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testFindTagMemeList() {
+        List<MemeTag> memeTagList = Arrays.asList(memeTag2, memeTag3);
+        List<Tag> expected = Arrays.asList(tag1, tag2);
+
+        List<Tag> actual = memeTagService.findTagMemeList(memeTagList);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void testFindTagIdList() {
+        Long tag1Id = 1L;
+        Long tag2Id = 2L;
+        ReflectionTestUtils.setField(tag1, "id", tag1Id);
+        ReflectionTestUtils.setField(tag2, "id", tag2Id);
+        List<MemeTag> memeTagList = Arrays.asList(memeTag2, memeTag3);
+        List<Long> expected = Arrays.asList(tag1.getId(), tag2.getId());
+
+        List<Long> actual = memeTagService.findTagIdList(memeTagList);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testFindMemeTagList() {
+        Page<MemeTag> memeTagPage = new PageImpl<>(Arrays.asList(memeTag1, memeTag2));
+        List<Meme> expected = Arrays.asList(meme1, meme2);
+
+        List<Meme> actual = memeTagService.findMemeTagList(memeTagPage);
+
+        assertEquals(expected, actual);
+    }
+
 
     private Tag createTag(String name) {
         return Tag.builder()
