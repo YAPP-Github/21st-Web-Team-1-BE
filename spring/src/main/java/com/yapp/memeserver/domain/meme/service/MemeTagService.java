@@ -54,8 +54,8 @@ public class MemeTagService {
     }
 
     @Transactional(readOnly = true)
-    public List<Meme> findMemeTagList(Page<MemeTag> memeTagList) {
-        return memeTagList.stream()
+    public List<Meme> findMemeTagList(Page<MemeTag> memeTagPage) {
+        return memeTagPage.stream()
                 .map(MemeTag::getMeme)
                 .collect(Collectors.toList());
     }

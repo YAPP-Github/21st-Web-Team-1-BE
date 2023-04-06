@@ -47,7 +47,7 @@ public class TagServiceTest {
     private TagService tagService;
 
     @Test
-    void testFindById() {
+    void findById_shouldReturnTag_whenTagExists() {
         // Given
         Category category = createCategory("Category 1");
         Tag tag = createTag("Tag 1", category);
@@ -66,17 +66,27 @@ public class TagServiceTest {
         assertThat(findTag.getName()).isEqualTo(tag.getName());
         assertThat(findTag.getCategory()).isEqualTo(tag.getCategory());
         assertThat(findTag.getViewCount()).isEqualTo(tag.getViewCount());
-        verify(tagRepository).findById(tagId);
+        verify(tagRepository,times(1)).findById(tagId);
+    }
 
-        // Test with non-existing tag ID
+    @Test
+    void findById_shouldThrowEntityNotFoundException_whenTagDoesNotExist() {
+        // Given
+        Category category = createCategory("Category 1");
+        Tag tag = createTag("Tag 1", category);
+        Long tagId = 1L;
         Long nonExistingTagId = 2L;
+        ReflectionTestUtils.setField(tag, "id", tagId);
+
+        // Mock
         given(tagRepository.findById(nonExistingTagId)).willReturn(Optional.empty());
 
+        // When, Then
         assertThrows(EntityNotFoundException.class, () -> {
             tagService.findById(nonExistingTagId);
         });
+        verify(tagRepository, times(1)).findById(nonExistingTagId);
     }
-
 
     @Test
     void testFindByCategory() {

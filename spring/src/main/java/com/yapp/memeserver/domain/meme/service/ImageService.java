@@ -31,17 +31,22 @@ public class ImageService {
     @Transactional(readOnly = true)
     public String getRandomImageUrl() {
         long qty = imageRepository.count();
+        if (qty == 0) {
+            throw new RuntimeException("이미지가 없습니다.");
+        }
         // 가져온 개수 중 랜덤한 하나의 인덱스를 뽑는다.
         int idx = (int)(Math.random() * qty);
-
         // 페이징하여 하나만 추출해낸다.
         Page<Image> imagePage = imageRepository
                 .findAll(PageRequest.of(idx, 1));
 
         if (!imagePage.hasContent()) {
-            new RuntimeException("이미지가 없습니다.");
+            throw new RuntimeException("이미지가 없습니다.");
         }
         Image image = imagePage.getContent().get(0);
+        if (image == null) {
+            throw new RuntimeException("이미지가 없습니다.");
+        }
         return image.getImageUrl();
     }
 }
