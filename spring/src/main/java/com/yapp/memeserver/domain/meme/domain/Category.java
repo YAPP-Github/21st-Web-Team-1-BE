@@ -46,6 +46,10 @@ public class Category {
         tag.setCategory(this);
     }
 
+    protected void setMainCategory(MainCategory mainCategory) {
+        this.mainCategory = mainCategory;
+    }
+
     @Builder
     public Category(String name) {
         this.name = name;

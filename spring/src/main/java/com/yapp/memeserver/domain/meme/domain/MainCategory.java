@@ -2,6 +2,7 @@ package com.yapp.memeserver.domain.meme.domain;
 
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -20,7 +21,7 @@ public class MainCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CATEGORY_ID")
+    @Column(name = "MAIN_CATEGORY_ID")
     private Long id;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
@@ -38,4 +39,27 @@ public class MainCategory {
 
     @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Category> categoryList = new ArrayList<>();
+
+
+    // 연관관계 편의 메소드
+    public void addCategory(Category category) {
+        categoryList.add(category);
+        category.setMainCategory(this);
+    }
+
+    @Builder
+    public MainCategory(String name, String icon) {
+        this.name = name;
+        this.icon = icon;
+        this.priority = 100;
+    }
+
+    public void updateMainCategory(String name, String icon) {
+        this.name = name;
+        this.icon = icon;
+    }
+
+    public void updatePriority(Integer priority) {
+        this.priority = priority;
+    }
 }
