@@ -37,6 +37,9 @@ public class MainCategory {
     @Column(name = "PRIORITY")
     private Integer priority;
 
+    @Column(name = "HAS_SUB")
+    private Boolean hasSub;
+
     @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Category> categoryList = new ArrayList<>();
 
@@ -52,6 +55,7 @@ public class MainCategory {
         this.name = name;
         this.icon = icon;
         this.priority = 100;
+        this.hasSub = false;
     }
 
     public void updateMainCategory(String name, String icon) {
@@ -61,5 +65,9 @@ public class MainCategory {
 
     public void updatePriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public void updateHasSub(Boolean hasSub) {
+        this.hasSub = hasSub;
     }
 }

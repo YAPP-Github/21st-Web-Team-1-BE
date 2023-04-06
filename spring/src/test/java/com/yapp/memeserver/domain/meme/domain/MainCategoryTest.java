@@ -45,6 +45,18 @@ public class MainCategoryTest {
         assertThat(mainCategory.getPriority()).isEqualTo(priority);
     }
 
+    @Test
+    void 메인카테고리_하위카테고리유무_변경_테스트() {
+        String name = "메인카테고리명";
+        String icon = "https://raw.githubusercontent.com/toss/tossface/cec7ea0420b7f17d6f546fd7359da9bd4cb3315c/dist/svg/u1F60E.svg";
+        Boolean hasSub = true;
+
+        MainCategory mainCategory = createMainCategory(name, icon);
+        mainCategory.updateHasSub(hasSub);
+
+        assertThat(mainCategory.getHasSub()).isEqualTo(hasSub);
+    }
+
     private MainCategory createMainCategory(String name, String icon) {
         return MainCategory.builder()
                 .name(name)

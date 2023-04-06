@@ -35,7 +35,6 @@ public class Category {
     private List<Tag> tagList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "메인 카테고리는 필수로 입력되어야 합니다.")
     @JoinColumn(name = "MAIN_CATEGORY_ID", updatable = false)
     private MainCategory mainCategory;
 
@@ -63,4 +62,5 @@ public class Category {
     public void updatePriority(Integer priority) {
         this.priority = priority;
     }
+
 }
