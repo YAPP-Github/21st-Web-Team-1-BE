@@ -28,16 +28,16 @@ public class Category {
     @Column(name = "NAME")
     private String name;
 
-    @URL
-    @Size(max = 2048)
-    @Column(name = "ICON")
-    private String icon;
-
     @Column(name = "PRIORITY")
     private Integer priority;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tagList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "메인 카테고리는 필수로 입력되어야 합니다.")
+    @JoinColumn(name = "MAIN_CATEGORY_ID", updatable = false)
+    private MainCategory mainCategory;
 
 
     // 연관관계 편의 메소드
@@ -47,15 +47,13 @@ public class Category {
     }
 
     @Builder
-    public Category(String name, String icon) {
+    public Category(String name) {
         this.name = name;
-        this.icon = icon;
         this.priority = 100;
     }
 
-    public void updateCategory(String name, String icon) {
+    public void updateCategory(String name) {
         this.name = name;
-        this.icon = icon;
     }
 
     public void updatePriority(Integer priority) {
