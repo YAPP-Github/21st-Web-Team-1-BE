@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,6 +26,7 @@ public class TagController {
 
     private final TagService tagService;
     private final CategoryService categoryService;
+    private final MainCategoryService mainCategoryService;
     private final MemeService memeService;
     private final MemeTagService memeTagService;
     private final TagFavService tagFavService;
@@ -61,11 +63,10 @@ public class TagController {
 
     @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
-    public TagCategoryListResDto getTagCategory(@AuthUser Account account) {
-        List<Category> categoryList = categoryService.findAllOrderByPriority();
-        List<Long> favTagIdList = tagFavService.getFavTagIdList(account);
-        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList, favTagIdList);
-
+    public MainCategoryListResDto getTagCategory(@AuthUser Account account) {
+        List<MainCategory> mainCategoryList = mainCategoryService.findAllOrderByPriority();
+        HashMap<Long, HashMap<Category, List<Tag>>> categoryMap = categoryService.getCategoryMap(mainCategoryList);
+        MainCategoryListResDto resDto = MainCategoryListResDto.of(mainCategoryList, categoryMap);
         return resDto;
     }
 
