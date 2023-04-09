@@ -20,7 +20,6 @@ public class TagCategoryListResDto {
     public static class SingleCategory {
         private Long categoryId;
         private String name;
-        private String icon;
         private Integer priority;
         private List<SingleTagDto> tags;
 
