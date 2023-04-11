@@ -80,6 +80,15 @@ public class TagController {
         return resDto;
     }
 
+    @GetMapping("/favs")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseStatus(value = HttpStatus.OK)
+    public SingleTagListResDto readTagFav(@AuthUser Account account) {
+        List<Tag> tagList = tagFavService.read(account);
+        SingleTagListResDto resDto = SingleTagListResDto.of(tagList);
+        return resDto;
+    }
+
     @PostMapping("{tagId}/fav")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(value = HttpStatus.OK)

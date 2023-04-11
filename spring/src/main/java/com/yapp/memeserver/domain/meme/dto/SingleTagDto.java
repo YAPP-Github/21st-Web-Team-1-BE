@@ -15,18 +15,16 @@ public class SingleTagDto {
 
     private Long tagId;
     private String name;
-    private Integer viewCount;
     private Boolean isFav;
 
     public SingleTagDto(Tag tag, Boolean isFav) {
         this.tagId = tag.getId();
         this.name = tag.getName();
-        this.viewCount = tag.getViewCount();
         this.isFav = isFav;
     }
 
     public static SingleTagDto of(Tag tag) {
-        return new SingleTagDto(tag, false);
+        return new SingleTagDto(tag, true);
     }
 
     public static SingleTagDto checkFav(Tag tag, List<Long> favTagIdList) {
