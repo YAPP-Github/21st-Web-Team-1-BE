@@ -63,7 +63,7 @@ public class TagController {
 
     @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
-    public MainCategoryListResDto getTagCategory(@AuthUser Account account) {
+    public MainCategoryListResDto getTagCategory() {
         List<MainCategory> mainCategoryList = mainCategoryService.findAllOrderByPriority();
         HashMap<Long, HashMap<Category, List<Tag>>> categoryMap = categoryService.getCategoryMap(mainCategoryList);
         MainCategoryListResDto resDto = MainCategoryListResDto.of(mainCategoryList, categoryMap);

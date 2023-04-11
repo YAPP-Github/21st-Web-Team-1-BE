@@ -30,7 +30,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
                     "ON t.TAG_ID = mt.TAG_ID " +
                     "WHERE t.CATEGORY_ID = :categoryId " +
                     "GROUP BY t.TAG_ID " +
-                    "HAVING c>1 " +
+                    "HAVING c>9 " +
                     "ORDER BY t.name"
     )
     List<Tag> findCategoryTag(@Param("categoryId") Long categoryId);
