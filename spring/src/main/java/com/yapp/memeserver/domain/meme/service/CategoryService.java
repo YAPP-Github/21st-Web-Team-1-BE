@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,18 +42,30 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public HashMap<Long, HashMap<Category, List<Tag>>> getCategoryMap(List<MainCategory> mainCategoryList) {
-        HashMap<Long, HashMap<Category, List<Tag>>> categoryMap = new HashMap<>();
-        for(MainCategory mainCategory : mainCategoryList) {
-            HashMap<Category, List<Tag>> tagMap = new HashMap<>();
+    public HashMap<Category, List<Tag>> getCategoryMap(MainCategory mainCategory) {
+            HashMap<Category, List<Tag>> categoryMap = new HashMap<>();
             List<Category> categoryList = findByMainCategory(mainCategory);
             for (Category category : categoryList) {
                 Long categoryId = category.getId();
                 List<Tag> tagList = tagRepository.findCategoryTag(categoryId);
-                tagMap.put(category, tagList);
+                categoryMap.put(category, tagList);
             }
-            categoryMap.put(mainCategory.getId(), tagMap);
-        }
         return categoryMap;
+    }
+
+    public List<Tag> getCarouselUser(HashMap<Category, List<Tag>> categoryMap) {
+        return categoryMap.values().stream()
+                .flatMap(List::stream)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public List<Tag> getCarouselEmotion(HashMap<Category, List<Tag>> categoryMap, int i) {
+        return categoryMap.values().stream()
+                .flatMap(List::stream)
+                .filter(tag -> tag.getName().length() == i)
+                .sorted(Comparator.comparing(Tag::getViewCount).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
     }
 }
