@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SingleTagFavListResDto {
 
-    private List<SingleTagDto> tags;
+    private List<SingleTagFavDto> tags;
 
     public static SingleTagFavListResDto of(List<Tag> tagList) {
         return SingleTagFavListResDto.builder()

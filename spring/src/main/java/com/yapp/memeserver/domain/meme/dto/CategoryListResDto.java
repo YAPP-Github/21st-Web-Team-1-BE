@@ -19,31 +19,17 @@ public class CategoryListResDto {
     private List<CategoryListResDto.SingleCategory> categories;
 
     @Getter
-    public static class SingleTag {
-        private Long tagId;
-        private String name;
-
-        public SingleTag(Tag tag) {
-            this.tagId = tag.getId();
-            this.name = tag.getName();
-        }
-        public static SingleTag of(Tag tag) {
-            return new SingleTag(tag);
-        }
-    }
-
-    @Getter
     public static class SingleCategory {
         private Long categoryId;
         private String name;
         private Integer priority;
-        private List<SingleTag> tags;
+        private List<SimpleTagDto> tags;
 
         public SingleCategory(Category category, List<Tag> tagList) {
             this.categoryId = category.getId();
             this.name = category.getName();
             this.priority = category.getPriority();
-            this.tags = tagList.stream().map(SingleTag::of).collect(Collectors.toList());
+            this.tags = tagList.stream().map(SimpleTagDto::of).collect(Collectors.toList());
         }
 
         public static SingleCategory of(Category category, List<Tag> tagList) {
