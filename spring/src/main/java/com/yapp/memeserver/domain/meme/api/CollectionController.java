@@ -5,7 +5,6 @@ import com.yapp.memeserver.domain.auth.service.AuthUser;
 import com.yapp.memeserver.domain.meme.domain.Collection;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import com.yapp.memeserver.domain.meme.dto.MemeCollectionCheckDto;
-import com.yapp.memeserver.domain.meme.dto.TagCategoryListResDto;
 import com.yapp.memeserver.domain.meme.service.CollectionService;
 import com.yapp.memeserver.domain.meme.service.MemeCollectionService;
 import com.yapp.memeserver.domain.meme.service.MemeService;
@@ -13,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController

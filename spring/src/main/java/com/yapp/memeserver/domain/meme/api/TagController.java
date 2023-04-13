@@ -12,9 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,20 +52,28 @@ public class TagController {
         return resDto;
     }
 
-    @GetMapping("/search")
-    @ResponseStatus(value = HttpStatus.OK)
-    public SingleTagListResDto searchTag(@RequestParam String word) {
-        List<Tag> tagList = tagService.findByNameContains(word);
-        SingleTagListResDto resDto = SingleTagListResDto.of(tagList);
-        return resDto;
-    }
 
     @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
     public MainCategoryListResDto getTagCategory() {
         List<MainCategory> mainCategoryList = mainCategoryService.findAllOrderByPriority();
-        HashMap<Long, HashMap<Category, List<Tag>>> categoryMap = categoryService.getCategoryMap(mainCategoryList);
-        MainCategoryListResDto resDto = MainCategoryListResDto.of(mainCategoryList, categoryMap);
+        List<List<Tag>> tagListList = new ArrayList<>();
+        HashMap<Long, HashMap<Category, List<Tag>>> mainCategoryMap = new HashMap<>();
+
+        for(int i = 0; i < mainCategoryList.size(); i++) {
+            MainCategory mainCategory = mainCategoryList.get(i);
+            HashMap<Category, List<Tag>> categoryMap = categoryService.getCategoryMap(mainCategory);
+            mainCategoryMap.put(mainCategory.getId(), categoryMap);
+
+            if (i == 0) {
+                tagListList.add(categoryService.getCarouselUser(categoryMap));
+            }
+            if (i == 1 || i == 2) {
+                tagListList.add(categoryService.getCarouselEmotion(categoryMap, i + 2));
+            }
+        }
+
+        MainCategoryListResDto resDto = MainCategoryListResDto.of(mainCategoryList, mainCategoryMap, tagListList);
         return resDto;
     }
 
@@ -83,9 +90,9 @@ public class TagController {
     @GetMapping("/favs")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(value = HttpStatus.OK)
-    public SingleTagListResDto readTagFav(@AuthUser Account account) {
+    public SingleTagFavListResDto readTagFav(@AuthUser Account account) {
         List<Tag> tagList = tagFavService.read(account);
-        SingleTagListResDto resDto = SingleTagListResDto.of(tagList);
+        SingleTagFavListResDto resDto = SingleTagFavListResDto.of(tagList);
         return resDto;
     }
 
