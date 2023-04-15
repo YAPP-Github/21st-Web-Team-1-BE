@@ -25,7 +25,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     void increaseViewCount(@Param("tagId") Long tagId);
 
     @Query(nativeQuery = true,
-            value = "SELECT t.TAG_ID, t.NAME, t.CATEGORY_ID, t.IMAGE_URL, t.VIEW_COUNT, COUNT(*) c FROM TAG t " +
+            value = "SELECT t.TAG_ID, t.NAME, t.CATEGORY_ID, t.VIEW_COUNT, COUNT(*) c FROM TAG t " +
                     "JOIN MEME_TAG mt " +
                     "ON t.TAG_ID = mt.TAG_ID " +
                     "WHERE t.CATEGORY_ID = :categoryId " +
