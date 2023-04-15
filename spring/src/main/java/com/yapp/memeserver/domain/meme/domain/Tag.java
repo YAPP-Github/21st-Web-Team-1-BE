@@ -35,11 +35,6 @@ public class Tag {
     @Column(name = "VIEW_COUNT")
     private Integer viewCount;
 
-    @URL
-    @Size(max = 2048)
-    @Column(name = "IMAGE_URL")
-    private String imageUrl;
-
 
     // 연관관계 편의 메소드
     protected void setCategory(Category category) {
@@ -55,9 +50,5 @@ public class Tag {
 
     public void updateTag(String name) {
         this.name = name;
-    }
-
-    public void updateImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }

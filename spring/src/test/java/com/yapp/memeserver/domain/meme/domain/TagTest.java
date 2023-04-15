@@ -26,17 +26,6 @@ class TagTest {
         assertThat(tag.getName()).isEqualTo(newName);
     }
 
-    @Test
-    void 태그_이미지_테스트() {
-        String name = "태그명";
-        String imageUrl = "https://yappmemebucket.s3.ap-northeast-2.amazonaws.com/memes/images/1.png";
-
-        Tag tag = createTag(name);
-        tag.updateImageUrl(imageUrl);
-
-        assertThat(tag.getImageUrl()).isEqualTo(imageUrl);
-    }
-
     private Tag createTag(String name) {
         return Tag.builder()
                 .name(name)
