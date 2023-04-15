@@ -23,4 +23,15 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     @Modifying(clearAutomatically = true) // 연산 이후 영속성 컨텍스트를 clear 하도록 설정
     @Query("UPDATE Tag t SET t.viewCount = t.viewCount + 1 WHERE t.id = :tagId")
     void increaseViewCount(@Param("tagId") Long tagId);
+
+    @Query(nativeQuery = true,
+            value = "SELECT t.TAG_ID, t.NAME, t.CATEGORY_ID, t.VIEW_COUNT, COUNT(*) c FROM TAG t " +
+                    "JOIN MEME_TAG mt " +
+                    "ON t.TAG_ID = mt.TAG_ID " +
+                    "WHERE t.CATEGORY_ID = :categoryId " +
+                    "GROUP BY t.TAG_ID " +
+                    "HAVING c>9 " +
+                    "ORDER BY t.name"
+    )
+    List<Tag> findCategoryTag(@Param("categoryId") Long categoryId);
 }

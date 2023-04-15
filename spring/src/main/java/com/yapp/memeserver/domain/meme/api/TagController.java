@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +25,7 @@ public class TagController {
 
     private final TagService tagService;
     private final CategoryService categoryService;
+    private final MainCategoryService mainCategoryService;
     private final MemeService memeService;
     private final MemeTagService memeTagService;
     private final TagFavService tagFavService;
@@ -51,21 +52,28 @@ public class TagController {
         return resDto;
     }
 
-    @GetMapping("/search")
-    @ResponseStatus(value = HttpStatus.OK)
-    public SingleTagListResDto searchTag(@RequestParam String word) {
-        List<Tag> tagList = tagService.findByNameContains(word);
-        SingleTagListResDto resDto = SingleTagListResDto.of(tagList);
-        return resDto;
-    }
 
     @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
-    public TagCategoryListResDto getTagCategory(@AuthUser Account account) {
-        List<Category> categoryList = categoryService.findAllOrderByPriority();
-        List<Long> favTagIdList = tagFavService.getFavTagIdList(account);
-        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList, favTagIdList);
+    public MainCategoryListResDto getTagCategory() {
+        List<MainCategory> mainCategoryList = mainCategoryService.findAllOrderByPriority();
+        List<List<Tag>> tagListList = new ArrayList<>();
+        HashMap<Long, HashMap<Category, List<Tag>>> mainCategoryMap = new HashMap<>();
 
+        for(int i = 0; i < mainCategoryList.size(); i++) {
+            MainCategory mainCategory = mainCategoryList.get(i);
+            HashMap<Category, List<Tag>> categoryMap = categoryService.getCategoryMap(mainCategory);
+            mainCategoryMap.put(mainCategory.getId(), categoryMap);
+
+            if (i == 0) {
+                tagListList.add(categoryService.getCarouselUser(categoryMap));
+            }
+            if (i == 1 || i == 2) {
+                tagListList.add(categoryService.getCarouselEmotion(categoryMap, i + 2));
+            }
+        }
+
+        MainCategoryListResDto resDto = MainCategoryListResDto.of(mainCategoryList, mainCategoryMap, tagListList);
         return resDto;
     }
 
@@ -76,6 +84,15 @@ public class TagController {
         List<MemeTag> memeTagList = memeTagService.findByMeme(meme);
         List<Tag> tagList = memeTagService.findTagMemeList(memeTagList);
         TagListResDto resDto = TagListResDto.of(tagList);
+        return resDto;
+    }
+
+    @GetMapping("/favs")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseStatus(value = HttpStatus.OK)
+    public SingleTagFavListResDto readTagFav(@AuthUser Account account) {
+        List<Tag> tagList = tagFavService.read(account);
+        SingleTagFavListResDto resDto = SingleTagFavListResDto.of(tagList);
         return resDto;
     }
 

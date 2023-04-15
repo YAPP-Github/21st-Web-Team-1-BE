@@ -11,29 +11,27 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SingleTagDto {
+public class SingleTagFavDto {
 
     private Long tagId;
     private String name;
-    private Integer viewCount;
     private Boolean isFav;
 
-    public SingleTagDto(Tag tag, Boolean isFav) {
+    public SingleTagFavDto(Tag tag, Boolean isFav) {
         this.tagId = tag.getId();
         this.name = tag.getName();
-        this.viewCount = tag.getViewCount();
         this.isFav = isFav;
     }
 
-    public static SingleTagDto of(Tag tag) {
-        return new SingleTagDto(tag, false);
+    public static SingleTagFavDto of(Tag tag) {
+        return new SingleTagFavDto(tag, true);
     }
 
-    public static SingleTagDto checkFav(Tag tag, List<Long> favTagIdList) {
+    public static SingleTagFavDto checkFav(Tag tag, List<Long> favTagIdList) {
         if (favTagIdList.contains(tag.getId())) {
-            return new SingleTagDto(tag, true);
+            return new SingleTagFavDto(tag, true);
         }
-        return new SingleTagDto(tag, false);
+        return new SingleTagFavDto(tag, false);
     }
 
     public void setFav(boolean isFav) {

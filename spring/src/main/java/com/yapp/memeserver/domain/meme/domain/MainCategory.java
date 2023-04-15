@@ -1,5 +1,6 @@
 package com.yapp.memeserver.domain.meme.domain;
 
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,12 +16,12 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="CATEGORY")
-public class Category {
+@Table(name="MAIN_CATEGORY")
+public class MainCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CATEGORY_ID")
+    @Column(name = "MAIN_CATEGORY_ID")
     private Long id;
 
     @NotNull(message = "이름은 필수로 입력되어야 합니다.")
@@ -28,39 +29,45 @@ public class Category {
     @Column(name = "NAME")
     private String name;
 
+    @URL
+    @Size(max = 2048)
+    @Column(name = "ICON")
+    private String icon;
+
     @Column(name = "PRIORITY")
     private Integer priority;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tag> tagList = new ArrayList<>();
+    @Column(name = "HAS_SUB")
+    private Boolean hasSub;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAIN_CATEGORY_ID", updatable = false)
-    private MainCategory mainCategory;
+    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categoryList = new ArrayList<>();
 
 
     // 연관관계 편의 메소드
-    public void addTag(Tag tag) {
-        tagList.add(tag);
-        tag.setCategory(this);
-    }
-
-    protected void setMainCategory(MainCategory mainCategory) {
-        this.mainCategory = mainCategory;
+    public void addCategory(Category category) {
+        categoryList.add(category);
+        category.setMainCategory(this);
     }
 
     @Builder
-    public Category(String name) {
+    public MainCategory(String name, String icon) {
         this.name = name;
+        this.icon = icon;
         this.priority = 100;
+        this.hasSub = false;
     }
 
-    public void updateCategory(String name) {
+    public void updateMainCategory(String name, String icon) {
         this.name = name;
+        this.icon = icon;
     }
 
     public void updatePriority(Integer priority) {
         this.priority = priority;
     }
 
+    public void updateHasSub(Boolean hasSub) {
+        this.hasSub = hasSub;
+    }
 }

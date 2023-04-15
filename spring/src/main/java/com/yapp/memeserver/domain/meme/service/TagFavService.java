@@ -34,6 +34,12 @@ public class TagFavService {
     }
 
     @Transactional(readOnly = true)
+    public List<Tag> read(Account account) {
+        List<TagFav> tagFavList = findByAccount(account);
+        return findFavTagList(tagFavList);
+    }
+
+    @Transactional(readOnly = true)
     public List<TagFav> findByAccount(Account account) {
         return tagFavRepository.findByAccount(account);
     }
