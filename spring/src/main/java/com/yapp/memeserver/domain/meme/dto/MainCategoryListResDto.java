@@ -27,7 +27,7 @@ public class MainCategoryListResDto {
         private String icon;
         private Integer priority;
         private Boolean hasSub;
-        private CategoryListResDto categories;
+        private List<CategoryListResDto.SingleCategory> categories;
 
         public SingleMainCategory(MainCategory mainCategory, HashMap<Category, List<Tag>> categoryMap) {
             this.mainCategoryId = mainCategory.getId();
@@ -35,7 +35,7 @@ public class MainCategoryListResDto {
             this.icon = mainCategory.getIcon();
             this.priority = mainCategory.getPriority();
             this.hasSub = mainCategory.getHasSub();
-            this.categories = CategoryListResDto.of(categoryMap);
+            this.categories = categoryMap.entrySet().stream().map(x-> CategoryListResDto.SingleCategory.of(x.getKey(), x.getValue())).collect(Collectors.toList());
         }
 
         public static MainCategoryListResDto.SingleMainCategory of(MainCategory mainCategory, HashMap<Long, HashMap<Category, List<Tag>>> categoryMap) {
