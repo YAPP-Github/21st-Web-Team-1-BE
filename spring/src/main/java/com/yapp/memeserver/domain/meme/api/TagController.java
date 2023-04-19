@@ -77,6 +77,16 @@ public class TagController {
         return resDto;
     }
 
+    @GetMapping("/categories/old")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagCategoryListResDto getTagCategory(@AuthUser Account account) {
+        List<Category> categoryList = categoryService.findAllOrderByPriority();
+        List<Long> favTagIdList = tagFavService.getFavTagIdList(account);
+        TagCategoryListResDto resDto = TagCategoryListResDto.of(categoryList, favTagIdList);
+
+        return resDto;
+    }
+
     @GetMapping("/memes/{memeId}")
     @ResponseStatus(value = HttpStatus.OK)
     public TagListResDto getTagMeme(@PathVariable final Long memeId) {
