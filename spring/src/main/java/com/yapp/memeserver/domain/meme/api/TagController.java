@@ -53,7 +53,7 @@ public class TagController {
     }
 
 
-    @GetMapping("/categories")
+    @GetMapping("/categories/new")
     @ResponseStatus(value = HttpStatus.OK)
     public MainCategoryListResDto getTagCategory() {
         List<MainCategory> mainCategoryList = mainCategoryService.findAllOrderByPriority();
@@ -77,7 +77,7 @@ public class TagController {
         return resDto;
     }
 
-    @GetMapping("/categories/old")
+    @GetMapping("/categories")
     @ResponseStatus(value = HttpStatus.OK)
     public TagCategoryListResDto getTagCategory(@AuthUser Account account) {
         List<Category> categoryList = categoryService.findAllOrderByPriority();
