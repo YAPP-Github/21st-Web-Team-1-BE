@@ -49,6 +49,9 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
 	// Spring Security를 사용하는 경우 추가. @AuthenticationPrincipal 무시해준다.
 	implementation("org.springdoc:springdoc-openapi-security:1.6.11")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
 }
 
 tasks.withType<Test> {
