@@ -66,4 +66,9 @@ public class TagService {
         }
         tagRepository.increaseViewCount(tagId);
     }
+
+    @Transactional(readOnly = true)
+    public List<Tag> findTop10ByOrderByViewCountDesc() {
+        return tagRepository.findTop10ByOrderByViewCountDesc();
+    }
 }
