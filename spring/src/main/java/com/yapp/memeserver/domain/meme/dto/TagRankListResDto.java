@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class TagRankListResDto {
 
     private List<TagRankResDto> tags;
+    private Integer count;
 
 
     @Getter
@@ -31,8 +32,11 @@ public class TagRankListResDto {
             this.tagId = tag.getId();
             this.name = tag.getName();
             this.viewCount = tag.getViewCount();
-            this.categoryId = tag.getCategory().getId();
-            this.categoryName = tag.getCategory().getName();
+            Category category = tag.getCategory();
+            if (category != null) {
+                this.categoryId = category.getId();
+                this.categoryName = category.getName();
+            }
             this.imageUrl = imageUrl;
         }
     }
@@ -41,12 +45,13 @@ public class TagRankListResDto {
         List<TagRankResDto> tagRankResDtoList = tagList.stream()
                 .map(tag -> {
                     int index = tagList.indexOf(tag);
-                    String imageUrl = imageList.get(index);
+                    String imageUrl = index < imageList.size() ? imageList.get(index) : null;
                     return new TagRankResDto(tag, imageUrl);
                 })
                 .collect(Collectors.toList());
         return TagRankListResDto.builder()
                 .tags(tagRankResDtoList)
+                .count(tagList.toArray().length)
                 .build();
     }
 }
