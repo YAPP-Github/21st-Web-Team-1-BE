@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -48,5 +49,27 @@ public class ImageService {
             throw new RuntimeException("이미지가 없습니다.");
         }
         return image.getImageUrl();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getTagRankImageLists(List<Tag> tagList) {
+        List<String> tagRankImageLists = new ArrayList<>();
+        for (Tag tag : tagList) {
+            List<String> tagRankImageList = imageRepository.findTagRankImageList(tag.getId());
+            String newImageUrl = null;
+            for (String imageUrl : tagRankImageList) {
+                if (tagRankImageLists.contains(imageUrl)) {
+                    continue;
+                } else {
+                    newImageUrl = imageUrl;
+                    break;
+                }
+            }
+            if (newImageUrl == null) {
+                newImageUrl = tagRankImageList.get(0);
+            }
+            tagRankImageLists.add(newImageUrl);
+        }
+        return tagRankImageLists;
     }
 }
