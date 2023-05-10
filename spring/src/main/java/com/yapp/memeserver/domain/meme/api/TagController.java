@@ -53,6 +53,13 @@ public class TagController {
         return resDto;
     }
 
+    @GetMapping("/search")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagListResDto searchTag(@RequestParam String word) {
+        List<Tag> tagList = tagService.findByNameContains(word);
+        TagListResDto resDto = TagListResDto.of(tagList);
+        return resDto;
+    }
 
     @GetMapping("/categories/new")
     @ResponseStatus(value = HttpStatus.OK)
