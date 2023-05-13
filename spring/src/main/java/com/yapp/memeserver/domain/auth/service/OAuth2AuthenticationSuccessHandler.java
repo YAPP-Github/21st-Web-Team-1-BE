@@ -58,7 +58,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUrl = CookieUtils.getCookie(request, REDIRECT_URL_PARAM_COOKIE_KEY).map(Cookie::getValue);
         String targetUrl = redirectUrl.orElse(getDefaultTargetUrl());
         return UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("error", "")
                 .build().toUriString();
     }
 

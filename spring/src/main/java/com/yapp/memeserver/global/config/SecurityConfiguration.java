@@ -2,6 +2,7 @@ package com.yapp.memeserver.global.config;
 
 import com.yapp.memeserver.domain.auth.service.CustomOAuth2UserService;
 import com.yapp.memeserver.domain.auth.service.CookieAuthorizationRequestRepository;
+import com.yapp.memeserver.domain.auth.service.OAuth2AuthenticationFailureHandler;
 import com.yapp.memeserver.domain.auth.service.OAuth2AuthenticationSuccessHandler;
 import com.yapp.memeserver.global.jwt.JwtAccessDeniedHandler;
 import com.yapp.memeserver.global.jwt.JwtEntryPoint;
@@ -33,6 +34,7 @@ public class SecurityConfiguration {
     private final JwtFilter jwtFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
@@ -67,6 +69,7 @@ public class SecurityConfiguration {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler)
 
                 .and() // 시큐리티는 기본적으로 세션을 사용하지만, 우리는 세션을 사용하지 않기 때문에 Stateless로 설정
                 .sessionManagement()
