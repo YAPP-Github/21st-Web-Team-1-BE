@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -55,12 +57,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // OAuth2UserService 를 통해 가져온 데이터를 담을 클래스
         OAuthAttributes attributes = OAuthAttributes
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        Map<String, Object> oAuth2UserAttributes = new HashMap<>(oAuth2User.getAttributes());
+        oAuth2UserAttributes.put("subDomain", registrationId.substring(registrationId.lastIndexOf("-")+1));
 
         // Account 를 저장하고, 이미 있는 데이터면 Update
         Account user = saveOrUpdate(attributes);
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-                attributes.getAttributes(),
+                oAuth2UserAttributes,
                 attributes.getNameAttributeKey());
     }
 
@@ -69,7 +73,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Account user =  accountRepository.findByEmail(attributes.getEmail())
                 .map(entity -> {
                     entity.updateMyAccount(attributes.getEmail(), attributes.getPassword());
-                            return accountRepository.findByEmail(attributes.getEmail()).get();
+                    return accountRepository.findByEmail(attributes.getEmail()).get();
                 })
                 .orElseGet(() -> {
                     // 프로필 사진 설정, Collection 생성
