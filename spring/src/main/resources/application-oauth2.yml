@@ -1,0 +1,23 @@
+spring:
+  security:
+    oauth2:
+      # Kakao OAuth2
+      client:
+        registration:
+          kakao:
+            clientId: "7685597347235bc61a2026d86bb655b5"
+            client-secret: "oG95lOAazrKJZjfMVLeeurVbFZ1HJgN9"
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - account_email
+            client-authentication-method: POST
+            client-name: kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize # api 문서 참고
+            token-uri: https://kauth.kakao.com/oauth/token # api 문서 참고
+            user-info-uri: https://kapi.kakao.com/v2/user/me # api 문서 참고
+            user-name-attribute: id # api 문서 참고
