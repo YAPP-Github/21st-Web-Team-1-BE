@@ -56,7 +56,7 @@ public class CategoryService {
     public List<Tag> getCarouselUser(HashMap<Category, List<Tag>> categoryMap) {
         return categoryMap.values().stream()
                 .flatMap(List::stream)
-                .sorted()
+                .sorted(Comparator.comparing(Tag::getName).reversed())
                 .collect(Collectors.toList());
     }
 
