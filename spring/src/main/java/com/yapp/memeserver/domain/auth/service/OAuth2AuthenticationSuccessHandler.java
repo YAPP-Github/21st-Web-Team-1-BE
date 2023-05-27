@@ -14,9 +14,13 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -29,12 +33,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        String referer = request.getHeader("Referer");
 
         DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
-        OAuthAttributes attributes = OAuthAttributes.ofKakao("id", principal.getAttributes());
-        String url = makeRedirectUrl(attributes.getEmail(), referer);
-        ResponseCookie responseCookie = generateRefreshTokenCookie(attributes.getEmail());
+        Map<String, Object> attributes = principal.getAttributes();
+        String email = (String) ((Map<String, Object>) principal.getAttributes().get("kakao_account")).get("email");
+        String nextPageUrl = getNextPageUrl(request);
+
+        String url = makeRedirectUrl(email, (String) attributes.get("subDomain"), nextPageUrl);
+        ResponseCookie responseCookie = generateRefreshTokenCookie(email);
         response.setHeader("Set-Cookie", responseCookie.toString());
         response.getWriter().write(url);
 
@@ -46,16 +52,34 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         getRedirectStrategy().sendRedirect(request, response, url);
     }
 
+    private String getNextPageUrl(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String nextPageUrl = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("nextPageUrl")) {
+                    nextPageUrl = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return nextPageUrl;
+    }
+
     // UTF-8로 인코딩 해서 반환.
-    private String makeRedirectUrl(String email, String referer) {
-        if (referer == null) {
-            referer = "https://app.thismeme.me/";
+    private String makeRedirectUrl(String email, String subDomain, String nextPageUrl) {
+        if (Objects.equals(subDomain, "kakao")) {
+            subDomain = "app";
+        }
+        if (nextPageUrl == null) {
+            nextPageUrl = "https://" + subDomain + ".thismeme.me/";
         }
 
         String accessToken = jwtProvider.generateAccessToken(email);
 
-        return UriComponentsBuilder.fromHttpUrl(referer+"oauth2/redirect")
+        return UriComponentsBuilder.fromHttpUrl("https://" + subDomain + ".thismeme.me/" + "oauth2/redirect")
                 .queryParam("accessToken", accessToken)
+                .queryParam("nextPageUrl", nextPageUrl)
                 .build()
                 .encode()
                 .toUriString();
