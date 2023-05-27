@@ -34,4 +34,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
                     "ORDER BY t.name"
     )
     List<Tag> findCategoryTag(@Param("categoryId") Long categoryId);
+
+    List<Tag> findTop10ByOrderByViewCountDesc();
 }

@@ -29,6 +29,7 @@ public class TagController {
     private final MemeService memeService;
     private final MemeTagService memeTagService;
     private final TagFavService tagFavService;
+    private final ImageService imageService;
 
     @GetMapping()
     @ResponseStatus(value = HttpStatus.OK)
@@ -52,6 +53,13 @@ public class TagController {
         return resDto;
     }
 
+    @GetMapping("/search")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagListResDto searchTag(@RequestParam String word) {
+        List<Tag> tagList = tagService.findByNameContains(word);
+        TagListResDto resDto = TagListResDto.of(tagList);
+        return resDto;
+    }
 
     @GetMapping("/categories/new")
     @ResponseStatus(value = HttpStatus.OK)
@@ -118,5 +126,14 @@ public class TagController {
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteTagFav(@PathVariable final Long tagId, @AuthUser Account account) {
         tagFavService.delete(tagId, account);
+    }
+
+    @GetMapping("/rank/new")
+    @ResponseStatus(value = HttpStatus.OK)
+    public TagRankListResDto getTagRank() {
+        List<Tag> tagList = tagService.findTop10ByOrderByViewCountDesc();
+        List<String> imageList = imageService.getTagRankImageLists(tagList);
+        TagRankListResDto resDto = TagRankListResDto.of(tagList, imageList);
+        return resDto;
     }
 }
