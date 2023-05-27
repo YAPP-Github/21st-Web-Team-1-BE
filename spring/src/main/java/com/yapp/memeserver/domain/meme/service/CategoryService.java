@@ -48,6 +48,9 @@ public class CategoryService {
             for (Category category : categoryList) {
                 Long categoryId = category.getId();
                 List<Tag> tagList = tagRepository.findCategoryTag(categoryId);
+                if (tagList.isEmpty()) {
+                    continue;
+                }
                 categoryMap.put(category, tagList);
             }
         return categoryMap;
