@@ -48,6 +48,9 @@ public class CategoryService {
             for (Category category : categoryList) {
                 Long categoryId = category.getId();
                 List<Tag> tagList = tagRepository.findCategoryTag(categoryId);
+                if (tagList.isEmpty()) {
+                    continue;
+                }
                 categoryMap.put(category, tagList);
             }
         return categoryMap;
@@ -56,7 +59,7 @@ public class CategoryService {
     public List<Tag> getCarouselUser(HashMap<Category, List<Tag>> categoryMap) {
         return categoryMap.values().stream()
                 .flatMap(List::stream)
-                .sorted()
+                .sorted(Comparator.comparing(Tag::getName).reversed())
                 .collect(Collectors.toList());
     }
 
