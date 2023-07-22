@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+
+  db_mysql:
+    image: mysql:8
+    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부). 필자는 로컬 MySQL 3306과 겹치지 않도록 3307으로 선택
+    ports:
+      - "3307:3306"
+    restart: on-failure
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--lower_case_table_names=2"
+
+    env_file:
+      - ./config/mysql.env
+      - ./config/tz.env
+    volumes:
+      - ./data/db:/var/lib/mysql
+
+  cache_redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    env_file:
+      - ./config/redis.env
+      - ./config/tz.env
+    volumes:
+      - ./data/cache:/data
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$${REDIS_PASSWORD}"
+
+  app_spring:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    env_file:
+      - ./config/spring.env
+      - ./config/mysql.env
+      - ./config/redis.env
+      - ./config/tz.env
+    depends_on:
+      - db_mysql
+      - cache_redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_meme
+    ports:
+      - "80:80"
+      - "443:443"    # https 443 포트 추가
+    restart: on-failure
+    volumes:
+      - ./spring:/usr/src/app
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - app_spring

@@ -39,3 +39,13 @@ out/
 ### logs ###
 logs/
 was-logs/
+
+## 환경변수 파일
+application-oauth2.yml
+/config/
+
+## Docker Volume
+data/
+
+## nginx log
+log/

@@ -1,38 +1,16 @@
 spring:
-  datasource:
-    # H2 DB를 인메모리 모드로 둔다.
-    url: jdbc:h2:mem:testdb
-    # 기본 계정이 sa에 비밀번호 없음이다.
-    username: sa
-    password:
-    # DB 커넥션과 관련된 데이터 소스 설정이 완료된다.
-    driver-class-name: org.h2.Driver
-
-  # H2 콘솔 활성화
-  h2:
-    console:
-      enabled: true
-
-  jpa:
-    hibernate:
-      # 자동으로 테이블을 만들어주는 모드. create로 두면 애플리케이션 실행 시점에 테이블을 drop 하고, 다시 생성한다.
-      ddl-auto: create
-
-# Actuator 설정
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - "health"
-      base-path: "/system"
-  endpoint:
-    health:
-      enabled: true
-      show-details: always
-
-# p6spy 적용
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
+  profiles:
+    default: local
+    group:
+      # H2 인메모리를 DB로 사용
+      test:
+        - common
+        - oauth2
+      # Local의 MySQL을 DB로 사용
+      local:
+        - common
+        - oauth2
+      # Docker 내부의 MySQL을 DB로 사용
+      dev:
+        - common
+        - oauth2

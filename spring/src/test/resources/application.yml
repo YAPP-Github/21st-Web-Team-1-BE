@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    default: test
+    group:
+      # H2 인메모리를 DB로 사용
+      test:
+        - common
+        - oauth2
