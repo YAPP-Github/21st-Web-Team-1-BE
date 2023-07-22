@@ -58,7 +58,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuthAttributes attributes = OAuthAttributes
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         Map<String, Object> oAuth2UserAttributes = new HashMap<>(oAuth2User.getAttributes());
-        oAuth2UserAttributes.put("subDomain", registrationId.substring(registrationId.lastIndexOf("-")+1));
 
         // Account 를 저장하고, 이미 있는 데이터면 Update
         Account user = saveOrUpdate(attributes);
