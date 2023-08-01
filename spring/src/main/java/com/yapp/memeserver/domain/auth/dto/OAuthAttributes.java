@@ -30,10 +30,6 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registrationId, String userNameAttributeName,
                                      Map<String, Object> attributes) {
 
-//        if ("kakao-test".equals(registrationId)) {
-//            return ofKakaoTest("id", attributes);
-//        }
-
         return ofKakao("id", attributes);
     }
 
