@@ -36,6 +36,14 @@ public class Image {
     @Column(name = "HEIGHT")
     private Integer height;
 
+    private String ahash;
+
+    private String dhash;
+
+    private String phash;
+
+    private Integer priority;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "밈은 필수로 입력되어야 합니다.")
     @JoinColumn(name = "MEME_ID", updatable = false)
@@ -48,10 +56,14 @@ public class Image {
     }
 
     @Builder
-    public Image(String imageUrl, Integer width, Integer height, Meme meme) {
+    public Image(String imageUrl, Integer width, Integer height, Meme meme, String ahash, String dhash, String phash, Integer priority) {
         this.imageUrl = imageUrl;
         this.width = width;
         this.height = height;
         this.meme = meme;
+        this.ahash = ahash;
+        this.dhash = dhash;
+        this.phash = phash;
+        this.priority = priority;
     }
 }
