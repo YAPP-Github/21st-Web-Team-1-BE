@@ -1,5 +1,6 @@
 package com.yapp.memeserver.domain.meme.domain;
 
+import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -38,6 +39,10 @@ public class Meme extends BaseTimeEntity {
     @Column(name = "SHARE_COUNT")
     private Integer shareCount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ACCOUNT_ID", updatable = false)
+    private Account writer;
+
     @OneToMany(mappedBy = "meme", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList = new ArrayList<>();
 
@@ -47,12 +52,21 @@ public class Meme extends BaseTimeEntity {
         image.setMeme(this);
     }
 
+//    @Builder
+//    public Meme(String name, String description) {
+//        this.name = name;
+//        this.description = description;
+//        this.viewCount = 0;
+//        this.shareCount = 0;
+//    }
+
     @Builder
-    public Meme(String name, String description) {
+    public Meme(String name, String description, Account writer) {
         this.name = name;
         this.description = description;
         this.viewCount = 0;
         this.shareCount = 0;
+        this.writer = writer;
     }
 
     public void updateMeme(String name, String description) {
