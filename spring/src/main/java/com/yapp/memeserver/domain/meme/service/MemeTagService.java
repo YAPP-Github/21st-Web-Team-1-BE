@@ -59,4 +59,12 @@ public class MemeTagService {
                 .map(MemeTag::getMeme)
                 .collect(Collectors.toList());
     }
+
+    public void create(Meme meme, Tag tag) {
+        MemeTag memeTag = MemeTag.builder()
+                .meme(meme)
+                .tag(tag)
+                .build();
+        memeTagRepository.save(memeTag);
+    }
 }

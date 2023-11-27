@@ -3,6 +3,7 @@ package com.yapp.memeserver.domain.meme.service;
 import com.yapp.memeserver.domain.meme.domain.Category;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import com.yapp.memeserver.domain.meme.domain.Tag;
+import com.yapp.memeserver.domain.meme.dto.MemeCreateReqDto;
 import com.yapp.memeserver.domain.meme.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,8 +68,37 @@ public class TagService {
         tagRepository.increaseViewCount(tagId);
     }
 
+
     @Transactional(readOnly = true)
     public List<Tag> findTop10ByOrderByViewCountDesc() {
         return tagRepository.findTop10ByOrderByViewCountDesc();
+    }
+
+
+    public Tag createTag(String name, Long categoryId) {
+        Category category = categoryService.findById(categoryId);
+        Tag tag = Tag.builder()
+                .name(name)
+                .category(category)
+                .build();
+        return tagRepository.save(tag);
+    }
+
+    public List<Tag> createTagList(List<MemeCreateReqDto.NewSingleTag> newTagList) {
+        List<Tag> tagList = new ArrayList<>();
+        for(MemeCreateReqDto.NewSingleTag newSingleTag : newTagList){
+            Tag tag = createTag(newSingleTag.getName(), newSingleTag.getCategoryId());
+            tagList.add(tag);
+        }
+        return tagList;
+    }
+
+    public List<Tag> findTagList(List<MemeCreateReqDto.SingleTag> tags) {
+        List<Tag> tagList = new ArrayList<>();
+        for(MemeCreateReqDto.SingleTag singleTag : tags){
+            Tag tag = findById(singleTag.getTagId());
+            tagList.add(tag);
+        }
+        return tagList;
     }
 }
