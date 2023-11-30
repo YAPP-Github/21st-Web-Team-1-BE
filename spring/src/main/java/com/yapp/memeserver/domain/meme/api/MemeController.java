@@ -6,13 +6,27 @@ import com.yapp.memeserver.domain.meme.dto.MemeResDto;
 import com.yapp.memeserver.domain.meme.dto.TagListResDto;
 import com.yapp.memeserver.domain.meme.repository.MemeRepository;
 import com.yapp.memeserver.domain.meme.service.*;
+
+import com.yapp.memeserver.domain.account.domain.Account;
+import com.yapp.memeserver.domain.account.service.AccountService;
+import com.yapp.memeserver.domain.meme.domain.Meme;
+import com.yapp.memeserver.domain.meme.domain.MemeTag;
+import com.yapp.memeserver.domain.meme.domain.Tag;
+import com.yapp.memeserver.domain.meme.dto.*;
+import com.yapp.memeserver.domain.meme.service.ImageService;
+import com.yapp.memeserver.domain.meme.service.MemeService;
+import com.yapp.memeserver.domain.meme.service.MemeTagService;
+import com.yapp.memeserver.domain.meme.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +40,10 @@ public class MemeController {
     private final CollectionService collectionService;
     private final MemeTagService memeTagService;
     private final MemeCollectionService memeCollectionService;
+
+    private final ImageService imageService;
+    private final AccountService accountService;
+
 
     @GetMapping()
     @ResponseStatus(value = HttpStatus.OK)
@@ -54,6 +72,7 @@ public class MemeController {
         return resDto;
     }
 
+
     @GetMapping("/collections/{collectionId}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemeListResDto getMemeCollection(@PathVariable final Long collectionId, Pageable pageable) {
@@ -61,6 +80,39 @@ public class MemeController {
         Page<MemeCollection> memeCollectionList = memeCollectionService.findByCollectionPaging(collection, pageable);
         List<Meme> memeList = memeCollectionService.findMemeCollectionList(memeCollectionList);
         MemeListResDto resDto = MemeListResDto.of(memeList);
+        return resDto;
+    }
+
+    @PostMapping(value = "/{accountId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public MemeDetailResDto createMeme(@PathVariable final Long accountId,
+                                 @RequestPart final MemeCreateReqDto reqDto,
+                                 @RequestPart(required = false) List<MultipartFile> images) throws IOException {
+
+        System.out.println("reqDto = " + reqDto);
+        System.out.println("reqDto.getName() = " + reqDto.getName());
+        Account account = accountService.findById(accountId);
+        Meme meme = memeService.create(reqDto.getName(), reqDto.getDescription(), account);
+
+        if (images != null && !images.isEmpty()) {
+            imageService.uploadImage(meme, images);
+        }
+
+        List<Tag> tagList = tagService.findTagList(reqDto.getTags());
+        List<MemeCreateReqDto.NewSingleTag> newTags = reqDto.getNewTags();
+
+        if (newTags != null && !newTags.isEmpty()) {
+            System.out.println("newTags = " + newTags);
+            List<Tag> newTagList = tagService.createTagList(reqDto.getNewTags());
+            tagList.addAll(newTagList);
+        }
+
+        for (Tag tag : tagList) {
+            memeTagService.create(meme, tag);
+        }
+
+        MemeDetailResDto resDto = MemeDetailResDto.of(meme, tagList);
+
         return resDto;
     }
 
