@@ -24,14 +24,14 @@ public class ImageListResDto {
     public static class SingleImage {
         private Long imageId;
         private String imageUrl;
-        private Integer width;
-        private Integer height;
+        private Integer imageWidth;
+        private Integer imageHeight;
 
         public SingleImage(Image image) {
             this.imageId = image.getId();
             this.imageUrl = image.getImageUrl();
-            this.width = image.getWidth();
-            this.height = image.getHeight();
+            this.imageWidth = image.getWidth();
+            this.imageHeight = image.getHeight();
         }
         
         public static SingleImage of(Image image) {

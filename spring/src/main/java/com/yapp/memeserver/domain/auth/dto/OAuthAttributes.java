@@ -23,7 +23,7 @@ public class OAuthAttributes {
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
-        this.password = getEncodedPassword();
+        this.password = makePassword();
     }
 
     // OAuth 제공해주는 서비스를 구분해주는 코드.
@@ -34,6 +34,7 @@ public class OAuthAttributes {
     }
 
     // OAuth2AuthenticationSuccessHandler 에서 가져오기 위해 public 으로 설정
+    @SuppressWarnings (value="unchecked")
     public static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         // kakao는 kakao_account에 유저정보가 있다. (email)
         Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
@@ -49,15 +50,16 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public Account toEntity() {
+    public Account toEntity(String name, String imageUrl) {
         return Account.builder()
                 .name(name)
                 .email(email)
-                .encodedPassword(password)
+                .password(password)
+                .imageUrl(imageUrl)
                 .build();
     }
 
-    private String getEncodedPassword() {
-        return name + email;
+    public String makePassword() {
+        return name + ' ' +email;
     }
 }

@@ -35,10 +35,10 @@ public class SignUpReqDto {
         this.password = password;
     }
 
-    public Account toEntity(String encodedPassword) {
+    public Account toEntity(String password) {
         return Account.builder()
                 .email(email)
-                .encodedPassword(encodedPassword)
+                .password(password)
                 .name(name)
                 .build();
     }

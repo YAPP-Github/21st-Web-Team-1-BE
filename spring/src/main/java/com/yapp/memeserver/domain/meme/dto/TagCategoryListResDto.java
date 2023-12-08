@@ -21,23 +21,23 @@ public class TagCategoryListResDto {
         private Long categoryId;
         private String name;
         private Integer priority;
-        private List<SingleTagDto> tags;
+        private List<SingleTagFavDto> tags;
 
-        public SingleCategory(Category category, List<SingleTagDto> tagList) {
+        public SingleCategory(Category category, List<SingleTagFavDto> tagList) {
             this.categoryId = category.getId();
             this.name = category.getName();
             this.priority = category.getPriority();
             this.tags = tagList;
         }
 
-        public static SingleCategory of(Category category) {
-            return new SingleCategory(category, category.getTagList().stream().map(SingleTagDto::of).collect(Collectors.toList()));
+        public static SingleCategory of(Category category, List<Long> favTagIdList) {
+            return new SingleCategory(category, category.getTagList().stream().map(x->SingleTagFavDto.checkFav(x, favTagIdList)).collect(Collectors.toList()));
         }
     }
 
-    public static TagCategoryListResDto of(List<Category> categoryList) {
+    public static TagCategoryListResDto of(List<Category> categoryList, List<Long> favTagIdList) {
         return TagCategoryListResDto.builder()
-                .categories(categoryList.stream().map(SingleCategory::of).collect(Collectors.toList()))
+                .categories(categoryList.stream().map(x->SingleCategory.of(x, favTagIdList)).collect(Collectors.toList()))
                 .build();
     }
 }

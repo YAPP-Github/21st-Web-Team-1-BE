@@ -45,8 +45,8 @@ public class AccountService {
             throw new IllegalStateException(requestDto.getEmail());
         }
 
-        String encodedPassword = encodePassword(requestDto.getPassword());
-        Account account = accountRepository.save(requestDto.toEntity(encodedPassword));
+        String password = encodePassword(requestDto.getPassword());
+        Account account = accountRepository.save(requestDto.toEntity(password));
         return account.getId();
     }
 
@@ -54,7 +54,7 @@ public class AccountService {
     public void update(Long accountId, UpdateAccountReqDto requestDto) {
         Account account = findById(accountId);
         String encodePassword = encodePassword(requestDto.getPassword());
-        account.updateMyAccount(requestDto.getEmail(), requestDto.getName(), encodePassword);
+        account.updateMyAccount(requestDto.getEmail(), encodePassword);
     }
 
     public void delete(Long accountId) {
