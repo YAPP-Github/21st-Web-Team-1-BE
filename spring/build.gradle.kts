@@ -62,7 +62,7 @@ dependencies {
 
 	// HikariCP
 	implementation("com.zaxxer:HikariCP:4.0.3")
-
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 }
 
 jacoco {
