@@ -77,4 +77,8 @@ public class Meme extends BaseTimeEntity {
         this.name = name;
         this.description = description;
     }
+
+    public void successCreate() {
+        this.status = MemeStatus.ACTIVE ;
+    }
 }

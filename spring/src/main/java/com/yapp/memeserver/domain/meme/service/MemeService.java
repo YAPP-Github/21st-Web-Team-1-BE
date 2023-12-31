@@ -2,6 +2,7 @@ package com.yapp.memeserver.domain.meme.service;
 
 import com.yapp.memeserver.domain.account.domain.Account;
 import com.yapp.memeserver.domain.meme.domain.Meme;
+import com.yapp.memeserver.domain.meme.domain.MemeStatus;
 import com.yapp.memeserver.domain.meme.domain.Tag;
 import com.yapp.memeserver.domain.meme.dto.MemeCreateReqDto;
 import com.yapp.memeserver.domain.meme.dto.MemeListResDto;
@@ -45,11 +46,12 @@ public class MemeService {
         memeRepository.increaseViewCount(memeId);
     }
 
-    public Meme create(String name, String description, Account account) {
+    public Meme create(String name, String description, Account account, MemeStatus status) {
         Meme meme = Meme.builder()
                 .name(name)
                 .description(description)
                 .writer(account)
+                .status(status)
                 .build();
         return memeRepository.save(meme);
     }

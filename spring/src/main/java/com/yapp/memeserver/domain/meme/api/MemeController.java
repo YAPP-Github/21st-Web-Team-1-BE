@@ -85,14 +85,14 @@ public class MemeController {
 
     @PostMapping(value = "/{accountId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
-    public MemeDetailResDto createMeme(@PathVariable final Long accountId,
+    public MemeDetailResDto createDraftMeme(@PathVariable final Long accountId,
                                  @RequestPart final MemeCreateReqDto reqDto,
                                  @RequestPart(required = false) List<MultipartFile> images) throws IOException {
 
-        System.out.println("reqDto = " + reqDto);
-        System.out.println("reqDto.getName() = " + reqDto.getName());
+//        System.out.println("reqDto = " + reqDto);
+//        System.out.println("reqDto.getName() = " + reqDto.getName());
         Account account = accountService.findById(accountId);
-        Meme meme = memeService.create(reqDto.getName(), reqDto.getDescription(), account);
+        Meme meme = memeService.create(reqDto.getName(), reqDto.getDescription(), account, MemeStatus.DRAFT);
 
         if (images != null && !images.isEmpty()) {
             imageService.uploadImage(meme, images);

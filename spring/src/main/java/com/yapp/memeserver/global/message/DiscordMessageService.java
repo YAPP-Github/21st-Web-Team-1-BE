@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class DiscordMessageService {
 
-    @Value("${discord.webhook.alert.url}")
+    @Value("${discord.webhook.url}")
     String webhookUrl;
 
     public boolean sendMsg(String msg){
