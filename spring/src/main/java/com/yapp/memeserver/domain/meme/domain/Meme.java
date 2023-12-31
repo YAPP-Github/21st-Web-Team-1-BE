@@ -43,6 +43,10 @@ public class Meme extends BaseTimeEntity {
     @JoinColumn(name = "ACCOUNT_ID", updatable = false)
     private Account writer;
 
+    @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
+    private MemeStatus status;
+
     @OneToMany(mappedBy = "meme", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList = new ArrayList<>();
 
@@ -61,7 +65,7 @@ public class Meme extends BaseTimeEntity {
 //    }
 
     @Builder
-    public Meme(String name, String description, Account writer) {
+    public Meme(String name, String description, Account writer, MemeStatus status) {
         this.name = name;
         this.description = description;
         this.viewCount = 0;
