@@ -46,7 +46,7 @@ public class Image {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "밈은 필수로 입력되어야 합니다.")
-    @JoinColumn(name = "MEME_ID", updatable = false)
+    @JoinColumn(name = "MEME_ID", updatable = true)
     private Meme meme;
 
 
@@ -55,8 +55,12 @@ public class Image {
         this.meme = meme;
     }
 
+    protected void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
     @Builder
-    public Image(String imageUrl, Integer width, Integer height, Meme meme, String ahash, String dhash, String phash, Integer priority) {
+    public Image(String imageUrl, Integer width, Integer height, Meme meme, String ahash, String dhash, String phash) {
         this.imageUrl = imageUrl;
         this.width = width;
         this.height = height;
@@ -64,6 +68,5 @@ public class Image {
         this.ahash = ahash;
         this.dhash = dhash;
         this.phash = phash;
-        this.priority = priority;
     }
 }

@@ -83,26 +83,21 @@ public class MemeController {
         return resDto;
     }
 
-    @PostMapping(value = "/{accountId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public MemeDetailResDto createDraftMeme(@PathVariable final Long accountId,
-                                 @RequestPart final MemeCreateReqDto reqDto,
-                                 @RequestPart(required = false) List<MultipartFile> images) throws IOException {
 
-//        System.out.println("reqDto = " + reqDto);
-//        System.out.println("reqDto.getName() = " + reqDto.getName());
+    @PostMapping(value = "/{accountId}")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public MemeDetailResDto createMeme(@PathVariable final Long accountId,
+                                       @RequestBody final MemeCreateReqDto reqDto) throws IOException {
+
         Account account = accountService.findById(accountId);
         Meme meme = memeService.create(reqDto.getName(), reqDto.getDescription(), account, MemeStatus.DRAFT);
 
-        if (images != null && !images.isEmpty()) {
-            imageService.uploadImage(meme, images);
-        }
+        imageService.setMemeImage(meme, reqDto.getImages());
 
         List<Tag> tagList = tagService.findTagList(reqDto.getTags());
         List<MemeCreateReqDto.NewSingleTag> newTags = reqDto.getNewTags();
 
         if (newTags != null && !newTags.isEmpty()) {
-            System.out.println("newTags = " + newTags);
             List<Tag> newTagList = tagService.createTagList(reqDto.getNewTags());
             tagList.addAll(newTagList);
         }
@@ -112,7 +107,6 @@ public class MemeController {
         }
 
         MemeDetailResDto resDto = MemeDetailResDto.of(meme, tagList);
-
         return resDto;
     }
 

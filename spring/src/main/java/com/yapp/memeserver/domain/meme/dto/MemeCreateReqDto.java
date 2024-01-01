@@ -23,6 +23,12 @@ public class MemeCreateReqDto {
         private Long tagId;
     }
 
+    @Getter
+    public static class SingleImage {
+        private Long imageId;
+        private Integer priority;
+    }
+
     private String name;
 
     private String description;
@@ -30,5 +36,7 @@ public class MemeCreateReqDto {
     private List<SingleTag> tags;
 
     private List<NewSingleTag> newTags;
+
+    private List<SingleImage> images;
 
 }

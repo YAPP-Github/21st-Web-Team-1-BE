@@ -51,18 +51,11 @@ public class Meme extends BaseTimeEntity {
     private List<Image> imageList = new ArrayList<>();
 
     // 연관관계 편의 메소드
-    public void addImage(Image image) {
+    public void addImage(Image image, Integer priority) {
         imageList.add(image);
         image.setMeme(this);
+        image.setPriority(priority);
     }
-
-//    @Builder
-//    public Meme(String name, String description) {
-//        this.name = name;
-//        this.description = description;
-//        this.viewCount = 0;
-//        this.shareCount = 0;
-//    }
 
     @Builder
     public Meme(String name, String description, Account writer, MemeStatus status) {
@@ -71,6 +64,7 @@ public class Meme extends BaseTimeEntity {
         this.viewCount = 0;
         this.shareCount = 0;
         this.writer = writer;
+        this.status = status;
     }
 
     public void updateMeme(String name, String description) {
