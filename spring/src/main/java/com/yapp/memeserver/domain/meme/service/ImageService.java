@@ -8,6 +8,8 @@ import com.yapp.memeserver.domain.meme.domain.Image;
 import com.yapp.memeserver.domain.meme.domain.Meme;
 import com.yapp.memeserver.domain.meme.domain.MemeTag;
 import com.yapp.memeserver.domain.meme.domain.Tag;
+import com.yapp.memeserver.domain.meme.dto.ImageReqDto;
+import com.yapp.memeserver.domain.meme.dto.ImageResDto;
 import com.yapp.memeserver.domain.meme.dto.MemeCreateReqDto;
 import com.yapp.memeserver.domain.meme.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -117,5 +119,14 @@ public class ImageService {
             meme.addImage(image, imageDto.getPriority());
             imageRepository.save(image);
         }
+    }
+
+    public ImageResDto create(ImageReqDto reqDto) {
+        Image image = Image.builder()
+                .imageUrl(reqDto.getImageUrl())
+                .width(reqDto.getWidth())
+                .height(reqDto.getHeight())
+                .build();
+        return ImageResDto.of(imageRepository.save(image));
     }
 }
